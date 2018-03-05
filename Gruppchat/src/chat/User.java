@@ -1,5 +1,8 @@
 package chat;
 
-public class User {
+import javax.swing.ImageIcon;
 
+public class User {
+	private String name;
+	private ImageIcon icon;
 }

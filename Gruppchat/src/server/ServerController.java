@@ -54,11 +54,7 @@ public class ServerController implements ClientListener {
 		if(m instanceof TextMessage) {
 			TextMessage cm = (TextMessage)m;
 			cm.setDateReceived();
-			if(cm.getReceivers().size() <= 0) {
-				sendToAll(cm);
-			} else {
-				sendToList(cm);
-			}
+			sendToList(cm);
 		}
 		
 	}

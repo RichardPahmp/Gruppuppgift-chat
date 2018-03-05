@@ -2,42 +2,49 @@ package client;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import chat.User;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.GridLayout;
-import javax.swing.JButton;
 
 public class ClientViewerBuilder extends JFrame {
 
 	private JPanel contentPane;
-	private DefaultListModel<String> listModel;
+	private DefaultListModel<String> listActiveUsers;
+	
 	private JTextField textField;
 	private JPanel panel;
 	private JLabel lblNewLabel;
 	private JPanel panel_1;
-	private JButton btnNewButton;
+	private JButton btnSendMessage;
 	private JButton btnUploadFile;
 	private JLabel lblNewLabel_1;
+	private ClientController controller;
+	
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		ClientController controller = new ClientController();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClientViewerBuilder frame = new ClientViewerBuilder();
+					ClientViewerBuilder frame = new ClientViewerBuilder(controller);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +56,8 @@ public class ClientViewerBuilder extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ClientViewerBuilder() {
+	public ClientViewerBuilder(ClientController controller) {
+		this.controller=controller;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -57,9 +65,9 @@ public class ClientViewerBuilder extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
-		listModel = new DefaultListModel<String>();
-		listModel.addElement("Tjena");
-		listModel.addElement("Vafan");
+		listActiveUsers = new DefaultListModel<String>();
+		listActiveUsers.addElement("Tjena");
+		listActiveUsers.addElement("Vafan");
 
 		JList list = new JList(new AbstractListModel() {
 			String[] values = new String[] {"Stefan", "Göran", "Greger", "Fia", "5", "6", "7", "8"};
@@ -73,7 +81,7 @@ public class ClientViewerBuilder extends JFrame {
 
 		contentPane.add(list, BorderLayout.WEST);
 
-		JList list_1 = new JList(listModel);
+		JList list_1 = new JList(listActiveUsers);
 		contentPane.add(list_1, BorderLayout.EAST);
 		
 		textField = new JTextField();
@@ -100,17 +108,32 @@ public class ClientViewerBuilder extends JFrame {
 		btnUploadFile = new JButton("Upload File");
 		panel_1.add(btnUploadFile);
 		
-		btnNewButton = new JButton("Send Message");
-		panel_1.add(btnNewButton);
+		btnSendMessage = new JButton("Send Message");
+		panel_1.add(btnSendMessage);
 
 	}
 
 	public void setUserList(ArrayList<User> activeUsers) {
 		for (User u : activeUsers) {
-			listModel.addElement(u.getName());
-
+			listActiveUsers.addElement(u.getName());
 		}
 
 	}
+	
+	private class Listener implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource()==btnSendMessage) {
+				controller.newMessage(textField.getText());
+				
+			}
+			if(e.getSource()==btnUploadFile) {
+				
+			}
+		}
+		
+	}
+	
+	
 
 }

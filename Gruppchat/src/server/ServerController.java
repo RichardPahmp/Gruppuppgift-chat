@@ -11,7 +11,8 @@ import chat.TextMessage;
 import chat.Message;
 import chat.SynchronizedHashMap;
 import chat.User;
-import chat.newUserMessage;
+import chat.UserConnectedMessage;
+import chat.UserDisconnectedMessage;
 
 public class ServerController implements ClientListener {
 	private SynchronizedHashMap<User, Client> userMap;
@@ -89,21 +90,6 @@ public class ServerController implements ClientListener {
 		}
 	}
 	
-	/**
-	 * Send a newUserMessage to all connected clients to let them know a new user has connected
-	 * @param user The user that has connected
-	 */
-	private void newUserConnected(User user) {
-		newUserMessage message = new newUserMessage(null, new ArrayList<User>(userMap.keySet()), user);
-		sendToAll(message);
-		for(User u : savedMessagesMap.keySet()) {
-			if(u.equals(user)) {
-				userMap.get(user).sendMessage(savedMessagesMap.get(user));
-				savedMessagesMap.remove(user);
-			}
-		}
-	}
-	
 	private class ConnectionHandler extends Thread{
 		private Socket socket;
 		
@@ -115,17 +101,9 @@ public class ServerController implements ClientListener {
 			try {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-				Object obj = ois.readObject();
-				if(obj instanceof User) {
-					User user = (User)obj;
-					Client client = new Client(oos, ois);
-					userMap.put(user, client);
-					client.setClientListener(ServerController.this);
-					client.start();
-					//Tell all client that a new user has connected
-					newUserConnected(user);
-					System.out.println("New Client accepted: " + user.getName());
-				}
+				Client client = new Client(oos, ois);
+				client.setClientListener(ServerController.this);
+				client.start();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -134,6 +112,27 @@ public class ServerController implements ClientListener {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void userConnected(User user, Client client) {
+		userMap.put(user, client);
+		UserConnectedMessage message = new UserConnectedMessage(new ArrayList<User>(userMap.keySet()), user);
+		sendToAll(message);
+		for(User u : savedMessagesMap.keySet()) {
+			if(u.equals(user)) {
+				userMap.get(user).sendMessage(savedMessagesMap.get(user));
+				savedMessagesMap.remove(user);
+			}
+		}
+		System.out.println("New Client accepted: " + user.getName());
+	}
+
+	@Override
+	public void userDisconnected(User user) {
+		userMap.remove(user);
+		UserDisconnectedMessage message = new UserDisconnectedMessage(new ArrayList<User>(userMap.keySet()), user);
+		sendToAll(message);
 	}
 
 }

@@ -1,18 +1,19 @@
 package chat;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class Message {
-	private User sender;
-	private String dateCreated;
-	private String dateReceived;
+public class Message implements Serializable{
+	protected User sender;
+	protected String dateSent;
+	protected String dateReceived;
 
 	public Message(User sender) {
 		this.sender = sender;
 	}
 
-	public void setDateCreated() {
-		this.dateCreated = setDate();
+	public void setDateSent() {
+		this.dateSent = setDate();
 	}
 
 	public void setDateReceived() {
@@ -25,8 +26,8 @@ public class Message {
 				+ cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
 	}
 
-	public String getDateCreated() {
-		return dateCreated;
+	public String getDateSent() {
+		return dateSent;
 	}
 
 	public String getDateReceived() {

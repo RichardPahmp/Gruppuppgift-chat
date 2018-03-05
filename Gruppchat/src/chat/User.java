@@ -1,8 +1,10 @@
 package chat;
 
+import java.io.Serializable;
+
 import javax.swing.ImageIcon;
 
-public class User {
+public class User implements Serializable {
 	private String name;
 	private ImageIcon icon;
 	

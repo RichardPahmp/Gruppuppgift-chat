@@ -12,4 +12,8 @@ public class newUserMessage extends Message {
 		this.connectedUsers = connectedUsers;
 		this.newUser = newUser;
 	}
+	
+	public ArrayList<User> getConnectedUsers(){
+		return connectedUsers;
+	}
 }

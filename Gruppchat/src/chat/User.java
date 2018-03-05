@@ -3,6 +3,6 @@ package chat;
 import javax.swing.ImageIcon;
 
 public class User {
-	private String clientName;
+	private String name;
 	private ImageIcon icon;
 }

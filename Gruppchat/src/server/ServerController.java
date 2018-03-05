@@ -27,7 +27,6 @@ public class ServerController implements ClientListener {
 	public ServerController(int port) {
 		userMap = new SynchronizedHashMap<User, Client>();
 		savedMessagesMap = new SynchronizedHashMap<User, TextMessage>();
-		savedMessagesMap.put(new User("Richard", null), new TextMessage(null, null, "wow", null));
 		try {
 			serverSocket = new ServerSocket(port);
 			start();

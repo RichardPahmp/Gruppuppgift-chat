@@ -7,6 +7,6 @@ public class User {
 	private ImageIcon icon;
 	
 	public String getName() {
-		return null;
+		return name;
 	}
 }

@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionListener;
 
@@ -28,7 +29,7 @@ public class MessageList extends JPanel {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		list = new JList<>(listModel);
 		list.setCellRenderer(new MessageRenderer());
-		add(list,BorderLayout.WEST);
+		add(list, BorderLayout.WEST);
 	}
 
 	public void addMessage(TextMessage textMessage) {

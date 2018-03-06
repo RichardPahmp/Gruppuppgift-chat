@@ -9,15 +9,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -30,6 +29,8 @@ public class ClientViewerBuilder extends JFrame implements ActionListener {
 	private JPanel pnlUsers;
 	private JPanel pnlText;
 	private JPanel pnlButtons;
+	private JScrollPane scrollPanelText=new JScrollPane();
+	private JScrollPane scrollPanelUsers = new JScrollPane();
 	
 	private JFileChooser fileChooser = new JFileChooser();
 
@@ -37,7 +38,6 @@ public class ClientViewerBuilder extends JFrame implements ActionListener {
 	private JLabel lblNewLabel_1;
 
 	private JTextField tfWrite;
-//	private JTextPane tpRead;
 
 	private JButton btnSendMessage;
 	private JButton btnUploadImage;
@@ -62,7 +62,8 @@ public class ClientViewerBuilder extends JFrame implements ActionListener {
 		pnlContent.setBorder(new EmptyBorder(5, 5, 5, 5));
 		pnlContent.setLayout(new BorderLayout(0, 0));
 		setContentPane(pnlContent);
-		pnlContent.add(userList, BorderLayout.WEST);
+		scrollPanelUsers.setViewportView(userList);
+		pnlContent.add(scrollPanelUsers, BorderLayout.WEST);
 
 		
 		tfWrite = new JTextField("Skriv här..");
@@ -70,8 +71,9 @@ public class ClientViewerBuilder extends JFrame implements ActionListener {
 		
 		pnlText= new JPanel();
 		pnlText.setLayout(new BorderLayout(0,0));
+		scrollPanelText.setViewportView(messageList);
 		pnlText.add(tfWrite, BorderLayout.NORTH);
-		pnlText.add(messageList, BorderLayout.CENTER);
+		pnlText.add(scrollPanelText, BorderLayout.CENTER);
 		
 		pnlContent.add(pnlText,BorderLayout.CENTER);
 		tfWrite.setColumns(10);
@@ -119,20 +121,6 @@ public class ClientViewerBuilder extends JFrame implements ActionListener {
 	public String getText() {
 		return tfWrite.getText();
 	}
-	
-//	public void setText(String message) {
-//		tpRead.setText(message);
-////		tpRead.setText("\n");
-//	}
-//	
-//	public void setImageToShow(Icon icon) {
-//		tpRead.insertIcon(icon);
-////		tpRead.setText("\n");
-//		
-//		
-//		
-//	}
-
 	
 
 	public LinkedList getRecievers() {

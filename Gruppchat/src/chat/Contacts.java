@@ -1,4 +1,4 @@
-/**
+
 package chat;
 
 import java.io.FileInputStream;
@@ -7,30 +7,45 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.LinkedList;
 
 public class Contacts {
+	private LinkedList<User> list = new LinkedList<User>();
 
 	public Contacts() {
-	
+		
 	}
-
-	public void Serialization() {
+	
+	public LinkedList<User> getList() {
+		return list;
+	}
+	
+	public void addContact(User user) {
+		list.add(user);
+	}
+	
+	public void writeFile() {
 		try {
-			User user = new User("name", "icon");
-
-			// write object to file
-			FileOutputStream fos = new FileOutputStream("user.ser");
+			FileOutputStream fos = new FileOutputStream("contacts.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(user);
+			oos.writeObject(list);
 			oos.close();
-
-			// read object from file
-			FileInputStream fis = new FileInputStream("user.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			User result = (User) ois.readObject();
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	public LinkedList<User> readFile() {
+		try {
+			FileInputStream fis = new FileInputStream("contacts.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);			
+			LinkedList<User> readList = (LinkedList<User>)ois.readObject();
 			ois.close();
-
-			System.out.println("Name:" + result.getName() + ", Icon:" + result.getIcon());
+			
+			return readList;
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -39,6 +54,6 @@ public class Contacts {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 }
-*/

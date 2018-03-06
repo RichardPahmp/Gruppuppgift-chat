@@ -128,17 +128,23 @@ public class ClientViewerBuilder extends JFrame {
 	}
 
 	public ArrayList getRecievers() {
-		if (list_1.is)
+		
+		for(int i = 0; i < listActiveUsers.size();i++) {	
+			if(list_1.isSelectedIndex(i));
+			System.out.println(listActiveUsers.getElementAt(i));
+		}
+		
 			return null;
 
 	}
+	
 
 	private class Listener implements ActionListener {
-
+	
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnSendMessage) {
-				controller.newMessage(textField.getText());
-
+//				controller.newMessage(textField.getText());
+				getRecievers();
 			}
 			if (e.getSource() == btnUploadFile) {
 

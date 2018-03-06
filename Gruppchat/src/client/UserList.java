@@ -1,10 +1,9 @@
 package client;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -20,6 +19,7 @@ public class UserList extends JPanel {
 	public UserList() {
 		list = new JList<>(listModel);
 		list.setCellRenderer(new UserRenderer());
+		list.setBackground(new Color(238, 238, 238));
 		add(list);
 	}
 
@@ -54,22 +54,5 @@ public class UserList extends JPanel {
 	        } 
 			return this;
 		}
-	}
-
-	public static void main(String[] args) {
-		ImageIcon icon = new ImageIcon("images/SmallMadeline.png");
-		User user1 = new User("Test1", icon);
-		User user2 = new User("Test2", icon);
-
-		JFrame test = new JFrame();
-		UserList userList = new UserList();
-
-		userList.addUser(user1);
-		userList.addUser(user2);
-
-		test.add(userList);
-		test.pack();
-		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		test.setVisible(true);
 	}
 }

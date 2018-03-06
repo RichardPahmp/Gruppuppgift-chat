@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -29,26 +30,28 @@ public class ClientViewerBuilder extends JFrame implements ActionListener {
 	private JPanel pnlUsers;
 	private JPanel pnlText;
 	private JPanel pnlButtons;
+	
 	private JScrollPane scrollPanelText=new JScrollPane();
 	private JScrollPane scrollPanelUsers = new JScrollPane();
+	private JScrollPane scrollPanelContacts = new JScrollPane();
 	
 	private JFileChooser fileChooser = new JFileChooser();
 
 	private JLabel lblActiveUsers;
 	private JLabel lblNewLabel_1;
 
-	private JTextField tfWrite;
+	private TextField tfWrite = new TextField("Skriv här...");
 
 	private JButton btnSendMessage;
 	private JButton btnUploadImage;
 
-	
 	private UserList userList = new UserList();
 	private MessageList messageList = new MessageList();
-	private DefaultListModel<User> listContacts;
-	private ClientController controller;
-
 	
+	private DefaultListModel<User> contactsListModel = new DefaultListModel<User>();
+	private JList<User> contactsList = new JList<User>();
+
+	private ClientController controller;
 
 	/**
 	 * Create the frame.
@@ -62,11 +65,14 @@ public class ClientViewerBuilder extends JFrame implements ActionListener {
 		pnlContent.setBorder(new EmptyBorder(5, 5, 5, 5));
 		pnlContent.setLayout(new BorderLayout(0, 0));
 		setContentPane(pnlContent);
+		
 		scrollPanelUsers.setViewportView(userList);
 		pnlContent.add(scrollPanelUsers, BorderLayout.WEST);
 
+		scrollPanelContacts.setViewportView(contactsList);
+		contactsList.setModel(contactsListModel);
+		pnlContent.add(scrollPanelContacts, BorderLayout.EAST);
 		
-		tfWrite = new JTextField("Skriv här..");
 		tfWrite.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		pnlText= new JPanel();
@@ -77,8 +83,6 @@ public class ClientViewerBuilder extends JFrame implements ActionListener {
 		
 		pnlContent.add(pnlText,BorderLayout.CENTER);
 		tfWrite.setColumns(10);
-
-
 		
 		pnlUsers = new JPanel();
 		pnlContent.add(pnlUsers, BorderLayout.NORTH);
@@ -113,8 +117,8 @@ public class ClientViewerBuilder extends JFrame implements ActionListener {
 		messageList.addMessage(message);
 	}
 
-	public void setContacts(User user) {
-		//contactList.addUser(user);
+	public void addContactToList(User user) {
+		contactsListModel.addElement(user);
 	}
 	
 
@@ -122,12 +126,10 @@ public class ClientViewerBuilder extends JFrame implements ActionListener {
 		return tfWrite.getText();
 	}
 	
-
 	public LinkedList getRecievers() {
 		return null;
 
 	}
-
 
 	public void addListeners() {
 		btnSendMessage.addActionListener(this);
@@ -140,31 +142,31 @@ public class ClientViewerBuilder extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == btnUploadImage) {
 			controller.uploadImage();			
-
 		}
-
 	}
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		ClientController controller = new ClientController();
-		ImageIcon icon = new ImageIcon("images/SmallMadeline.png");
-		User user1 = new User("Birger", icon);
-		User user2 = new User("Stefan", icon);
+		ImageIcon icon1 = new ImageIcon("images/SmallMadeline.png");
+		ImageIcon icon2 = new ImageIcon("images/Granny.png");
+		User user1 = new User("Birger", icon2);
+		User user2 = new User("Stefan", icon1);
 		
 		ArrayList<User> userList = new ArrayList<User>();
 		userList.add(user2);
-		TextMessage message1 = new TextMessage(user2,userList,"Hejsan",icon);
+		TextMessage message1 = new TextMessage(user2,userList,"Hejsan",icon1);
 		TextMessage message2 = new TextMessage(user1,userList,"Tjena",null);
 
-		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					ClientViewerBuilder frame = new ClientViewerBuilder(controller);
 					frame.addUserToList(user1);
 					frame.addUserToList(user2);
+					frame.addContactToList(user2);
 					frame.setVisible(true);
 					frame.addMessageToList(message1);
 					frame.addMessageToList(message2);

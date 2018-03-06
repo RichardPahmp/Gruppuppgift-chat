@@ -29,4 +29,12 @@ public class TextMessage extends Message implements Serializable{
 	public String getText() {
 		return this.messageText;
 	}
+	
+	public Icon getImage() {
+		return this.image;
+	}
+	
+	public  User getSender() {
+		return this.sender;
+	}
 }

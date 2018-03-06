@@ -6,46 +6,180 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
-import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import chat.TextMessage;
 import chat.User;
 
-public class ClientViewerBuilder extends JFrame {
+public class ClientViewerBuilder extends JFrame implements ActionListener {
 
-	private JPanel contentPane;
-	private DefaultListModel<String> listActiveUsers;
+	private JPanel pnlContent;
+	private JPanel pnlUsers;
+	private JPanel pnlText;
+	private JPanel pnlButtons;
+	
+	private JFileChooser fileChooser = new JFileChooser();
 
-	private JTextField textField;
-	private JPanel panel;
-	private JLabel lblNewLabel;
-	private JPanel panel_1;
-	private JButton btnSendMessage;
-	private JButton btnUploadFile;
+	private JLabel lblActiveUsers;
 	private JLabel lblNewLabel_1;
-	private ClientController controller;
-	private JList list;
-	private JList list_1;
 
+	private JTextField tfWrite;
+//	private JTextPane tpRead;
+
+	private JButton btnSendMessage;
+	private JButton btnUploadImage;
+
+	
+	private UserList userList = new UserList();
+	private MessageList messageList = new MessageList();
+	private DefaultListModel<User> listContacts;
+	private ClientController controller;
+
+	
+
+	/**
+	 * Create the frame.
+	 */
+	public ClientViewerBuilder(ClientController controller) {
+		this.controller = controller;
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 550, 300);
+		pnlContent = new JPanel();
+		pnlContent.setBorder(new EmptyBorder(5, 5, 5, 5));
+		pnlContent.setLayout(new BorderLayout(0, 0));
+		setContentPane(pnlContent);
+		pnlContent.add(userList, BorderLayout.WEST);
+
+		
+		tfWrite = new JTextField("Skriv här..");
+		tfWrite.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		pnlText= new JPanel();
+		pnlText.setLayout(new BorderLayout(0,0));
+		pnlText.add(tfWrite, BorderLayout.NORTH);
+		pnlText.add(messageList, BorderLayout.CENTER);
+		
+		pnlContent.add(pnlText,BorderLayout.CENTER);
+		tfWrite.setColumns(10);
+
+
+		
+		pnlUsers = new JPanel();
+		pnlContent.add(pnlUsers, BorderLayout.NORTH);
+		pnlUsers.setLayout(new GridLayout(0, 2, 0, 0));
+
+		lblActiveUsers = new JLabel("Active users");
+		lblActiveUsers.setHorizontalAlignment(SwingConstants.LEFT);
+		lblActiveUsers.setVerticalAlignment(SwingConstants.TOP);
+		pnlUsers.add(lblActiveUsers);
+
+		lblNewLabel_1 = new JLabel("Contacts");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		pnlUsers.add(lblNewLabel_1);
+
+		pnlButtons = new JPanel();
+		pnlContent.add(pnlButtons, BorderLayout.SOUTH);
+
+		btnUploadImage = new JButton("Upload File");
+		pnlButtons.add(btnUploadImage);
+
+		btnSendMessage = new JButton("Send Message");
+		pnlButtons.add(btnSendMessage);
+		addListeners();
+	}
+
+	public void addUserToList(User user) {
+		userList.addUser(user);
+
+	}
+	
+	public void addMessageToList(TextMessage message) {
+		messageList.addMessage(message);
+	}
+
+	public void setContacts(User user) {
+		//contactList.addUser(user);
+	}
+	
+
+	public String getText() {
+		return tfWrite.getText();
+	}
+	
+//	public void setText(String message) {
+//		tpRead.setText(message);
+////		tpRead.setText("\n");
+//	}
+//	
+//	public void setImageToShow(Icon icon) {
+//		tpRead.insertIcon(icon);
+////		tpRead.setText("\n");
+//		
+//		
+//		
+//	}
+
+	
+
+	public LinkedList getRecievers() {
+		return null;
+
+	}
+
+
+	public void addListeners() {
+		btnSendMessage.addActionListener(this);
+		btnUploadImage.addActionListener(this);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnSendMessage) {
+			controller.newMessage();
+		}
+		if (e.getSource() == btnUploadImage) {
+			controller.uploadImage();			
+
+		}
+
+	}
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		ClientController controller = new ClientController();
+		ImageIcon icon = new ImageIcon("images/SmallMadeline.png");
+		User user1 = new User("Birger", icon);
+		User user2 = new User("Stefan", icon);
+		
+		ArrayList<User> userList = new ArrayList<User>();
+		userList.add(user2);
+		TextMessage message1 = new TextMessage(user2,userList,"Hejsan",icon);
+		TextMessage message2 = new TextMessage(user1,userList,"Tjena",null);
+
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					ClientViewerBuilder frame = new ClientViewerBuilder(controller);
+					frame.addUserToList(user1);
+					frame.addUserToList(user2);
 					frame.setVisible(true);
+					frame.addMessageToList(message1);
+					frame.addMessageToList(message2);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,103 +187,4 @@ public class ClientViewerBuilder extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public ClientViewerBuilder(ClientController controller) {
-		this.controller = controller;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-
-		listActiveUsers = new DefaultListModel<String>();
-		listActiveUsers.addElement("Tjena");
-		listActiveUsers.addElement("Vafan");
-
-		list = new JList(new AbstractListModel() {
-			String[] values = new String[] { "Stefan", "Göran", "Greger", "Fia", "5", "6", "7", "8" };
-
-			public int getSize() {
-				return values.length;
-			}
-
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-
-		contentPane.add(list, BorderLayout.WEST);
-
-		list_1 = new JList(listActiveUsers);
-
-		contentPane.add(list_1, BorderLayout.EAST);
-
-		textField = new JTextField();
-		textField.setHorizontalAlignment(SwingConstants.LEFT);
-		contentPane.add(textField, BorderLayout.CENTER);
-		textField.setColumns(10);
-
-		panel = new JPanel();
-		contentPane.add(panel, BorderLayout.NORTH);
-		panel.setLayout(new GridLayout(0, 2, 0, 0));
-
-		lblNewLabel = new JLabel("Active users");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
-		panel.add(lblNewLabel);
-
-		lblNewLabel_1 = new JLabel("Contacts");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblNewLabel_1);
-
-		panel_1 = new JPanel();
-		contentPane.add(panel_1, BorderLayout.SOUTH);
-
-		btnUploadFile = new JButton("Upload File");
-		panel_1.add(btnUploadFile);
-
-		btnSendMessage = new JButton("Send Message");
-		panel_1.add(btnSendMessage);
-
-	}
-
-	public void setUserList(ArrayList<User> activeUsers) {
-		for (User u : activeUsers) {
-			listActiveUsers.addElement(u.getName());
-		}
-
-	}
-
-	public String getText() {
-		return null;
-	}
-
-	public ArrayList getRecievers() {
-		
-		for(int i = 0; i < listActiveUsers.size();i++) {	
-			if(list_1.isSelectedIndex(i));
-			System.out.println(listActiveUsers.getElementAt(i));
-		}
-		
-			return null;
-
-	}
-	
-
-	private class Listener implements ActionListener {
-	
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == btnSendMessage) {
-//				controller.newMessage(textField.getText());
-				getRecievers();
-			}
-			if (e.getSource() == btnUploadFile) {
-
-			}
-
-		}
-	}
 }

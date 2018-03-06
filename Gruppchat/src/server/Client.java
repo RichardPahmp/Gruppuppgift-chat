@@ -7,12 +7,14 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import chat.Message;
+import chat.User;
 
 public class Client extends Thread{
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	
 	private ClientListener listener;
+	private User user;
 	
 	public Client(ObjectOutputStream oos, ObjectInputStream ois) {
 		this.ois = ois;
@@ -24,19 +26,36 @@ public class Client extends Thread{
 	}
 	
 	public void run(){
+		Object obj = null;
+		try {
+			obj = ois.readObject();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if(obj instanceof User) {
+			user = (User)obj;
+			listener.userConnected(user, this);
+		}
+		
 		while(true) {
 			try {
-				Object obj = ois.readObject();
+				obj = ois.readObject();
 				if(obj instanceof Message) {
 					listener.messageReceived((Message)obj);
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				listener.userDisconnected(user);
 				break;
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				listener.userDisconnected(user);
 				break;
 			}
 		}
@@ -49,6 +68,7 @@ public class Client extends Thread{
 			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+			listener.userDisconnected(user);
 			System.out.println("Error writing message to stream");
 		}
 	}

@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 
 import chat.TextMessage;
 import chat.User;
-import chat.newUserMessage;
+import chat.UserConnectedMessage;
 
 public class TestClient{
 	
@@ -42,8 +42,8 @@ public class TestClient{
 			while(true) {
 				try {
 					Object obj = ois.readObject();
-					if(obj instanceof newUserMessage) {
-						newUserMessage num = (newUserMessage)obj;
+					if(obj instanceof UserConnectedMessage) {
+						UserConnectedMessage num = (UserConnectedMessage)obj;
 						System.out.println(num.getConnectedUsers());
 					}
 					if(obj instanceof TextMessage) {

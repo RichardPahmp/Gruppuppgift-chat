@@ -27,6 +27,7 @@ public class ClientController {
 	public void newMessage() {
 		userList=viewer.getuserList();
 		receivers=userList.getReceivers();
+		System.out.println(receivers);
 		
 	}
 

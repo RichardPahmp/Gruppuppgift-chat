@@ -45,6 +45,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 	
 	private MessageList messageList = new MessageList();
 	private DefaultListModel<User> listContacts;
+	
 	private ClientController controller;
 	private Icon icon;
 
@@ -52,7 +53,6 @@ public class ClientViewer extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public ClientViewer() {
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 300);
 		pnlContent = new JPanel();

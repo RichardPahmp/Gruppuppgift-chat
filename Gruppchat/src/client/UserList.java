@@ -18,8 +18,7 @@ import chat.User;
 
 public class UserList extends JPanel {
 	private DefaultListModel<User> listModel = new DefaultListModel<>();
-	private JList<User> list = new JList<>();
-	private int[] selectedUserIndex;
+	private JList<User> list ;
 	private LinkedList<User> selectedList = new LinkedList<User>();
 
 	public UserList() {
@@ -31,7 +30,6 @@ public class UserList extends JPanel {
 
 	public void addUser(User user) {
 		listModel.addElement(user);
-		list = new JList<>(listModel);
 		repaint();
 	}
 
@@ -63,16 +61,15 @@ public class UserList extends JPanel {
 	}
 
 	public LinkedList<User> getReceivers() {
-		int[] selectedIx = list.getSelectedIndices();
-		System.out.println("hejsan111");
-
-		for (int i = 0; i < selectedIx.length; i++) {
-			System.out.println("hej");
-			selectedList.add(list.getModel().getElementAt(selectedIx[i]));
-			System.out.println(selectedList.get(i).getName());
+		selectedList.clear();
+		for(int i = 0; i<listModel.size();i++) {
+			
+			if(list.isSelectedIndex(i)) {
+				selectedList.add(listModel.getElementAt(i));
+			}
 		}
 
-		return null;
+		return selectedList;
 	}
 
 	

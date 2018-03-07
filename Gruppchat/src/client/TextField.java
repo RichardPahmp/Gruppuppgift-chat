@@ -18,7 +18,9 @@ public class TextField extends JTextField {
 	}
 
 	public String getText() {
-		return super.getText();
+		if(getForeground() != Color.LIGHT_GRAY) {
+			return super.getText();			
+		} else return "";
 	}
 	
 	public void clear() {

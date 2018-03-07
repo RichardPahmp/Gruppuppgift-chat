@@ -57,6 +57,16 @@ public class UserList extends JPanel {
 			return this;
 		}
 	}
+
+	public LinkedList<User> getReceivers() {
+
+		for( int i=0; i < listModel.size();i++) {
+			if(list.isSelectedIndex(i)) {
+				System.out.println(listModel.getElementAt(i));
+			}
+		}
+		return null;
+	}
 	
 	
 }

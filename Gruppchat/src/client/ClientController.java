@@ -13,6 +13,7 @@ public class ClientController {
 	private Message message;
 	private Icon icon;
 	private LinkedList <User> receivers;
+	private UserList userList;
 
 
 	public ClientController(ClientViewer viewer) {
@@ -24,7 +25,8 @@ public class ClientController {
 	}
 
 	public void newMessage() {
-		receivers=viewer.getRecievers();
+		userList=viewer.getuserList();
+		receivers=userList.getReceivers();
 		
 	}
 

@@ -116,9 +116,8 @@ public class ClientViewer extends JFrame implements ActionListener {
 		return tfWrite.getText();
 	}
 
-	public LinkedList<User> getRecievers() {
-		
-		return null;
+	public UserList getuserList() {
+		return userList;
 	}
 
 	public Icon getUploadedImage() {

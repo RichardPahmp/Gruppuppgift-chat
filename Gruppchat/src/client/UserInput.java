@@ -21,7 +21,7 @@ public class UserInput extends JFrame {
 
 	private JButton fileButton = new JButton("Upload file");
 	private JButton doneButton = new JButton("Klar");
-
+	
 	public UserInput() {
 
 		setTitle("New User");

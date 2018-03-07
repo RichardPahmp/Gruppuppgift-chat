@@ -21,13 +21,13 @@ public class ClientMain {
 		ClientViewer frame = new ClientViewer();
 		ClientController controller = new ClientController(frame);
 //		TestClient client = new TestClient(controller);
-		UserInput userInput= new UserInput(controller);
+		 
 	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					controller.setUser(me);
-					
+					new UserInput();
 					frame.setController(controller);
 					frame.addUserToList(user1);
 					frame.addUserToList(user2);

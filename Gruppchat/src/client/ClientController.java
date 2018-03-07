@@ -33,9 +33,9 @@ public class ClientController {
 		receivers = userList.getReceivers();
 		text = viewer.getText();
 		image = viewer.getImage();
-
 		textMessage = new TextMessage(user, receivers, text, image);
-
+		viewer.eraseImage();
+		receivedMessage(textMessage);
 	}
 
 	public void receivedMessage(TextMessage message) {

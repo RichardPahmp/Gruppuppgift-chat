@@ -19,7 +19,7 @@ public class ServerController implements ClientListener {
 	private SynchronizedHashMap<User, TextMessage> savedMessagesMap;
 
 	private ServerSocket serverSocket;
-	private ServerViewer viewer;
+	
 
 	// testmain
 	public static void main(String[] args) {
@@ -38,12 +38,11 @@ public class ServerController implements ClientListener {
 		}
 	}
 
-	public ServerController(ServerViewer viewer) {
-		this.viewer = viewer;
-	}
+
+
 
 	public void start() {
-		viewer.appendText("Server has started.");
+		System.out.println("Server has started.");
 		try {
 			while (true) {
 				Socket socket = serverSocket.accept();
@@ -90,9 +89,7 @@ public class ServerController implements ClientListener {
 			if (userMap.containsKey(user)) {
 				// The selected user is online
 				userMap.get(user).sendMessage(message);
-				viewer.appendText(
-						"From: " + message.getSender() + "\nSent: " + message.getDateSent() + "\n" + message.getText()
-								+ "\nTo: " + message.getReceivers() + "\nReceived: " + message.getDateReceived());
+			
 			} else {
 				// The selected user is offline
 				// Save the message to send it later
@@ -133,7 +130,7 @@ public class ServerController implements ClientListener {
 				savedMessagesMap.remove(user);
 			}
 		}
-		viewer.appendText("New Client accepted: " + user.getName());
+		System.out.println("New Client accepted: " + user.getName());
 	}
 
 	@Override

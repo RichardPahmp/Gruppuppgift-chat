@@ -2,9 +2,12 @@ package client;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -17,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import chat.TextMessage;
 import chat.User;
@@ -46,7 +50,8 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private DefaultListModel<User> listContacts;
 
 	private ClientController controller;
-	private ImageIcon icon;
+	private ImageIcon image;
+	private Image img;
 
 	/**
 	 * Create the frame.
@@ -119,12 +124,21 @@ public class ClientViewer extends JFrame implements ActionListener {
 	}
 
 	public void uploadImage() {
-		if (fc.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION);
-		icon = new ImageIcon(fc.getSelectedFile().getAbsolutePath());
+		if (fc.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION)	;
+
+		fc.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
+		image = new ImageIcon(fc.getSelectedFile().getAbsolutePath());
+		img = image.getImage();
+		Image newimg = img.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH);
+		image = new ImageIcon(newimg);
 	}
 
 	public ImageIcon getImage() {
-		return icon;
+		return image;
+	}
+
+	public void eraseImage() {
+		image = null;
 	}
 
 	public void addListeners() {
@@ -150,33 +164,33 @@ public class ClientViewer extends JFrame implements ActionListener {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-
-		ImageIcon icon = new ImageIcon("images/SmallMadeline.png");
-		User user1 = new User("Birger", icon);
-		User user2 = new User("Stefan", icon);
-
-		ArrayList<User> userList = new ArrayList<User>();
-		userList.add(user2);
-		TextMessage message1 = new TextMessage(user2, userList, "Hejsan", icon);
-		TextMessage message2 = new TextMessage(user1, userList, "Tjena", null);
-
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ClientViewer frame = new ClientViewer();
-					ClientController controller = new ClientController(frame);
-					frame.setController(controller);
-					frame.addUserToList(user1);
-					frame.addUserToList(user2);
-					frame.setVisible(true);
-					frame.addMessageToList(message1);
-					frame.addMessageToList(message2);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//
+//		ImageIcon icon = new ImageIcon("images/SmallMadeline.png");
+//		User user1 = new User("Birger", icon);
+//		User user2 = new User("Stefan", icon);
+//
+//		ArrayList<User> userList = new ArrayList<User>();
+//		userList.add(user2);
+//		TextMessage message1 = new TextMessage(user2, userList, "Hejsan", icon);
+//		TextMessage message2 = new TextMessage(user1, userList, "Tjena", null);
+//
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ClientViewer frame = new ClientViewer();
+//					ClientController controller = new ClientController(frame);
+//					frame.setController(controller);
+//					frame.addUserToList(user1);
+//					frame.addUserToList(user2);
+//					frame.setVisible(true);
+//					frame.addMessageToList(message1);
+//					frame.addMessageToList(message2);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 }

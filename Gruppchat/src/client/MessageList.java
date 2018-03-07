@@ -21,7 +21,7 @@ import chat.User;
 
 public class MessageList extends JPanel {
 	private DefaultListModel<TextMessage> listModel = new DefaultListModel<>();
-	private JList<TextMessage> list;
+	private JList<TextMessage> list = new JList<TextMessage>();
 
 	public MessageList() {
 		this.setLayout(new BorderLayout());
@@ -34,7 +34,7 @@ public class MessageList extends JPanel {
 
 	public void addMessage(TextMessage textMessage) {
 		listModel.addElement(textMessage);
-//		list = new JList<>(listModel);
+		list = new JList<>(listModel);
 		repaint();
 	}
 	

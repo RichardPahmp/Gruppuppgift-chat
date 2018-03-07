@@ -25,7 +25,6 @@ public class ServerViewer extends JFrame {
 	
 	public static void main(String[] args) {
 		ServerViewer frame = new ServerViewer();
-		ServerController controller = new ServerController(frame);
 		frame.setVisible(true);
 
 	}

@@ -52,7 +52,6 @@ public class MessageList extends JPanel {
 
 		public Component getListCellRendererComponent(JList<? extends TextMessage> list, TextMessage message, int index,
 				boolean isSelected, boolean cellHasFocus) {
-			
 			setText(message.getSender().getName()+": "+ message.getText());
 			setIcon(message.getImage());
 			

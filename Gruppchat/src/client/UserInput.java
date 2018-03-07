@@ -35,9 +35,6 @@ public class UserInput extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		ClientController controller = new ClientController();
-		UserInput frame = new UserInput(controller);
-		frame.pack();
-		frame.setVisible(true);
+
 	}
 }

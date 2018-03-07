@@ -1,3 +1,3 @@
 package server;
-public class ServerViewer{
+public class ServerViewer {
 }

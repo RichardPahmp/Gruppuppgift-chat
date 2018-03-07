@@ -32,7 +32,7 @@ public class ServerController implements ClientListener {
 			serverSocket = new ServerSocket(port);
 			start();
 		} catch (IOException e) {
-			System.out.println("ServerSocket failed to start.");
+			System.err.println("ServerSocket failed to start.");
 			e.printStackTrace();
 		}
 	}
@@ -56,10 +56,8 @@ public class ServerController implements ClientListener {
 			TextMessage cm = (TextMessage)m;
 			cm.setDateReceived();
 			sendToList(cm);
-		}
-		
+		}	
 	}
-	
 	
 	/**
 	 * Send a Message to every connected user

@@ -37,4 +37,8 @@ public class TextMessage extends Message implements Serializable{
 	public  User getSender() {
 		return this.sender;
 	}
+	
+	public String toString() {
+		return "Text: "+ messageText + " | Till: " + receivers;
+	}
 }

@@ -1,44 +1,41 @@
 package client;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
-import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 public class TextField extends JTextField {
 	private boolean selected = false;
+	private String text;
 	
-	public TextField(String string) {
-		super(string);
-		addMouseListener(new MouseListener());
-		addKeyListener(new KeyListener());
+	public TextField(String text) {
+		super(text);
+		this.text = text;
+		setForeground(Color.LIGHT_GRAY);
+		addFocusListener(new FocusListener());
 	}
 	
-	private class MouseListener extends MouseAdapter{
-		public void mouseClicked(MouseEvent e) {
+	public String getText() {
+		String res = null;
+		if(selected) {
+			res = super.getText();
+			setText("");
+		}
+		return res;
+	}
+	
+	private class FocusListener extends FocusAdapter{
+		public void focusGained(FocusEvent e) {
 			if(!selected) {
 				setText("");
-				selected = true;
 			}
 		}
-	}
-	
-	private class KeyListener extends KeyAdapter{
-		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode() == 10) {
-				setText("");
+		public void focusLost(FocusEvent e) { 
+			if(getText() == null) {
+				setText(text);
 			}
 		}
-	}
-	
-	public static void main(String[] args) {
-		TextField test = new TextField("Skriv här...");
-		JFrame window = new JFrame();
-		window.add(test);
-		window.pack();
-		window.setVisible(true);
 	}
 }

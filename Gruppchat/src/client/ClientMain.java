@@ -26,8 +26,8 @@ public class ClientMain {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					controller.setUser(me);
-					new UserInput();
+//					controller.setUser(me);
+					new UserInput(controller);
 					frame.setController(controller);
 					frame.addUserToList(user1);
 					frame.addUserToList(user2);

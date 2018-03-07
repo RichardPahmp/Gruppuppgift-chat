@@ -31,7 +31,7 @@ public class UserInput extends JFrame implements ActionListener{
 
 
 	public UserInput(ClientController controller) {
-
+		
 
 		setTitle("New User");
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));

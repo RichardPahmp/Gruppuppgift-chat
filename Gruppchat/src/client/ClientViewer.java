@@ -38,12 +38,12 @@ public class ClientViewer extends JFrame implements ActionListener {
 
 	private JButton btnSendMessage;
 	private JButton btnUploadImage;
+	private JButton btnAddToContacts;
 
 	private UserList userList = new UserList();
 	
 	private MessageList messageList = new MessageList();
 	private DefaultListModel<User> listContacts;
-
 
 	private ClientController controller;
 	private ImageIcon image;

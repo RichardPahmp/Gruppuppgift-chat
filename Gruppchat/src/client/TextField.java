@@ -9,31 +9,33 @@ import javax.swing.JTextField;
 public class TextField extends JTextField {
 	private boolean selected = false;
 	private String text;
-	
+
 	public TextField(String text) {
 		super(text);
 		this.text = text;
 		setForeground(Color.LIGHT_GRAY);
 		addFocusListener(new FocusListener());
 	}
-	
+
 	public String getText() {
-		String res = null;
-		if(selected) {
-			res = super.getText();
-			setText("");
-		}
-		return res;
+		return super.getText();
 	}
 	
-	private class FocusListener extends FocusAdapter{
+	public void clear() {
+		setText("");
+	}
+
+	private class FocusListener extends FocusAdapter {
 		public void focusGained(FocusEvent e) {
-			if(!selected) {
+			if (getForeground() == Color.LIGHT_GRAY) {
 				setText("");
+				setForeground(Color.BLACK);
 			}
 		}
-		public void focusLost(FocusEvent e) { 
-			if(getText() == null) {
+
+		public void focusLost(FocusEvent e) {
+			if (getForeground() != Color.BLACK || getText().length() == 0) {
+				setForeground(Color.LIGHT_GRAY);
 				setText(text);
 			}
 		}

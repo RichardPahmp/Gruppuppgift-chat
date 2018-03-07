@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -38,7 +37,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private JLabel lblActiveUsers;
 	private JLabel lblNewLabel_1;
 
-	private JTextField tfWrite;
+	private TextField tfWrite;
 
 	private JButton btnSendMessage;
 	private JButton btnUploadImage;
@@ -63,7 +62,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 		scrollPanelUsers.setViewportView(userList);
 		pnlContent.add(scrollPanelUsers, BorderLayout.WEST);
 
-		tfWrite = new JTextField("Skriv här..");
+		tfWrite = new TextField("Skriv här..");
 		tfWrite.setHorizontalAlignment(SwingConstants.LEFT);
 
 		pnlText = new JPanel();

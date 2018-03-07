@@ -17,14 +17,15 @@ import chat.UserDisconnectedMessage;
 public class ServerController implements ClientListener {
 	private SynchronizedHashMap<User, Client> userMap;
 	private SynchronizedHashMap<User, TextMessage> savedMessagesMap;
-	
-	private ServerSocket serverSocket;
 
-	//testmain
+	private ServerSocket serverSocket;
+	private ServerViewer viewer;
+
+	// testmain
 	public static void main(String[] args) {
 		ServerController cont = new ServerController(3280);
 	}
-	
+
 	public ServerController(int port) {
 		userMap = new SynchronizedHashMap<User, Client>();
 		savedMessagesMap = new SynchronizedHashMap<User, TextMessage>();
@@ -36,65 +37,77 @@ public class ServerController implements ClientListener {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public ServerController(ServerViewer viewer) {
+		this.viewer = viewer;
+	}
+
 	public void start() {
-		System.out.println("Server has started.");
+		viewer.appendText("Server has started.");
 		try {
-			while(true) {
+			while (true) {
 				Socket socket = serverSocket.accept();
 				new ConnectionHandler(socket).start();
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+
+		}
+	}
+
+	@Override
+	public void messageReceived(Message m) {
+		if (m instanceof TextMessage) {
+			TextMessage cm = (TextMessage) m;
+			cm.setDateReceived();
+			sendToList(cm);
+		}
+	}
+
+	/**
+	 * Send a Message to every connected user
+	 * 
+	 * @param m
+	 *            the message to send
+	 */
+	private void sendToAll(Message m) {
+		for (Client client : userMap.values()) {
+			client.sendMessage(m);
 			
 		}
 	}
-	
-	@Override
-	public void messageReceived(Message m) {
-		if(m instanceof TextMessage) {
-			TextMessage cm = (TextMessage)m;
-			cm.setDateReceived();
-			sendToList(cm);
-		}	
-	}
-	
-	/**
-	 * Send a Message to every connected user
-	 * @param m the message to send
-	 */
-	private void sendToAll(Message m) {
-		for(Client client : userMap.values()) {
-			client.sendMessage(m);
-		}
-	}
-	
+
 	/**
 	 * Send the passed TextMessage to the users specified in the receivers list
-	 * @param message the message to send
+	 * 
+	 * @param message
+	 *            the message to send
 	 */
 	private void sendToList(TextMessage message) {
 		ArrayList<User> receivers = message.getReceivers();
 		message.clearReceivers();
-		for(User user : receivers) {
-			if(userMap.containsKey(user)) {
-				//The selected user is online
+		for (User user : receivers) {
+			if (userMap.containsKey(user)) {
+				// The selected user is online
 				userMap.get(user).sendMessage(message);
+				viewer.appendText(
+						"From: " + message.getSender() + "\nSent: " + message.getDateSent() + "\n" + message.getText()
+								+ "\nTo: " + message.getReceivers() + "\nReceived: " + message.getDateReceived());
 			} else {
-				//The selected user is offline
-				//Save the message to send it later
+				// The selected user is offline
+				// Save the message to send it later
 				savedMessagesMap.put(user, message);
 			}
 		}
 	}
-	
-	private class ConnectionHandler extends Thread{
+
+	private class ConnectionHandler extends Thread {
 		private Socket socket;
-		
+
 		public ConnectionHandler(Socket socket) {
 			this.socket = socket;
 		}
-		
+
 		public void run() {
 			try {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
@@ -114,13 +127,13 @@ public class ServerController implements ClientListener {
 		userMap.put(user, client);
 		UserConnectedMessage message = new UserConnectedMessage(new ArrayList<User>(userMap.keySet()), user);
 		sendToAll(message);
-		for(User u : savedMessagesMap.keySet()) {
-			if(u.equals(user)) {
+		for (User u : savedMessagesMap.keySet()) {
+			if (u.equals(user)) {
 				userMap.get(user).sendMessage(savedMessagesMap.get(user));
 				savedMessagesMap.remove(user);
 			}
 		}
-		System.out.println("New Client accepted: " + user.getName());
+		viewer.appendText("New Client accepted: " + user.getName());
 	}
 
 	@Override

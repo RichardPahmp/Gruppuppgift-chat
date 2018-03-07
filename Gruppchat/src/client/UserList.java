@@ -16,7 +16,7 @@ import chat.User;
 public class UserList extends JPanel {
 	private DefaultListModel<User> listModel = new DefaultListModel<>();
 	private JList<User> list = new JList<>();
-
+	private int[] selectedUserIndex;
 
 	public UserList() {
 		list = new JList<>(listModel);
@@ -30,7 +30,7 @@ public class UserList extends JPanel {
 		list = new JList<>(listModel);
 		repaint();
 	}
-	
+
 	public void addListener(ListSelectionListener listener) {
 		list.addListSelectionListener(listener);
 	}
@@ -39,34 +39,27 @@ public class UserList extends JPanel {
 		public UserRenderer() {
 			setOpaque(true);
 		}
-		
+
 		@Override
 		public Component getListCellRendererComponent(JList<? extends User> list, User user, int index,
 				boolean isSelected, boolean cellHasFocus) {
 
 			setIcon(user.getIcon());
-			setText(user.getName()+"  ");
-			
-	        if (isSelected) {
-	            setBackground(list.getSelectionBackground());
-	            setForeground(list.getSelectionForeground());
-	        } else {
-	            setBackground(list.getBackground());
-	            setForeground(list.getForeground());
-	        } 
+			setText(user.getName() + "  ");
+
+			if (isSelected) {
+				setBackground(list.getSelectionBackground());
+				setForeground(list.getSelectionForeground());
+			} else {
+				setBackground(list.getBackground());
+				setForeground(list.getForeground());
+			}
 			return this;
 		}
 	}
 
 	public LinkedList<User> getReceivers() {
-
-		for( int i=0; i < listModel.size();i++) {
-			if(list.isSelectedIndex(i)) {
-				System.out.println(listModel.getElementAt(i));
-			}
-		}
 		return null;
 	}
-	
-	
+
 }

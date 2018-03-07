@@ -33,4 +33,6 @@ public class Message implements Serializable{
 	public String getDateReceived() {
 		return dateReceived;
 	}
+	
+	
 }

@@ -2,6 +2,7 @@ package client;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.util.LinkedList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -15,6 +16,7 @@ import chat.User;
 public class UserList extends JPanel {
 	private DefaultListModel<User> listModel = new DefaultListModel<>();
 	private JList<User> list = new JList<>();
+
 
 	public UserList() {
 		list = new JList<>(listModel);
@@ -55,4 +57,6 @@ public class UserList extends JPanel {
 			return this;
 		}
 	}
+	
+	
 }

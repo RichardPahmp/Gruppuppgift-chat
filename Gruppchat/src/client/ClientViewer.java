@@ -38,12 +38,13 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private JLabel lblActiveUsers;
 	private JLabel lblNewLabel_1;
 
-	private JTextField tfWrite;
+	private TextField tfWrite;
 
 	private JButton btnSendMessage;
 	private JButton btnUploadImage;
 
 	private UserList userList = new UserList();
+	
 	private MessageList messageList = new MessageList();
 	private DefaultListModel<User> listContacts;
 	private ClientController controller;
@@ -63,7 +64,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 		scrollPanelUsers.setViewportView(userList);
 		pnlContent.add(scrollPanelUsers, BorderLayout.WEST);
 
-		tfWrite = new JTextField("Skriv här..");
+		tfWrite = new TextField("Skriv här..");
 		tfWrite.setHorizontalAlignment(SwingConstants.LEFT);
 
 		pnlText = new JPanel();
@@ -116,9 +117,9 @@ public class ClientViewer extends JFrame implements ActionListener {
 		return tfWrite.getText();
 	}
 
-	public LinkedList getRecievers() {
+	public LinkedList<User> getRecievers() {
+		
 		return null;
-
 	}
 
 	public Icon getUploadedImage() {

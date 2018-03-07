@@ -1,10 +1,10 @@
 package client;
 
+import java.util.LinkedList;
+
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import chat.Message;
-import chat.TextMessage;
 import chat.User;
 
 public class ClientController {
@@ -12,6 +12,8 @@ public class ClientController {
 	private ClientViewer viewer;
 	private Message message;
 	private Icon icon;
+	private LinkedList <User> receivers;
+
 
 	public ClientController(ClientViewer viewer) {
 		this.viewer = viewer;
@@ -22,6 +24,8 @@ public class ClientController {
 	}
 
 	public void newMessage() {
+		receivers=viewer.getRecievers();
+		
 	}
 
 	public void uploadImage() {

@@ -124,13 +124,15 @@ public class ClientViewer extends JFrame implements ActionListener {
 	}
 
 	public void uploadImage() {
-		if (fc.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION)	;
+		if (fc.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION);
 
 		fc.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
-		image = new ImageIcon(fc.getSelectedFile().getAbsolutePath());
-		img = image.getImage();
-		Image newimg = img.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH);
-		image = new ImageIcon(newimg);
+		if (fc.getSelectedFile() != null) {
+			image = new ImageIcon(fc.getSelectedFile().getAbsolutePath());
+			img = image.getImage();
+			Image newimg = img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+			image = new ImageIcon(newimg);
+		}
 	}
 
 	public ImageIcon getImage() {
@@ -164,33 +166,33 @@ public class ClientViewer extends JFrame implements ActionListener {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//
-//		ImageIcon icon = new ImageIcon("images/SmallMadeline.png");
-//		User user1 = new User("Birger", icon);
-//		User user2 = new User("Stefan", icon);
-//
-//		ArrayList<User> userList = new ArrayList<User>();
-//		userList.add(user2);
-//		TextMessage message1 = new TextMessage(user2, userList, "Hejsan", icon);
-//		TextMessage message2 = new TextMessage(user1, userList, "Tjena", null);
-//
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					ClientViewer frame = new ClientViewer();
-//					ClientController controller = new ClientController(frame);
-//					frame.setController(controller);
-//					frame.addUserToList(user1);
-//					frame.addUserToList(user2);
-//					frame.setVisible(true);
-//					frame.addMessageToList(message1);
-//					frame.addMessageToList(message2);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	// public static void main(String[] args) {
+	//
+	// ImageIcon icon = new ImageIcon("images/SmallMadeline.png");
+	// User user1 = new User("Birger", icon);
+	// User user2 = new User("Stefan", icon);
+	//
+	// ArrayList<User> userList = new ArrayList<User>();
+	// userList.add(user2);
+	// TextMessage message1 = new TextMessage(user2, userList, "Hejsan", icon);
+	// TextMessage message2 = new TextMessage(user1, userList, "Tjena", null);
+	//
+	// EventQueue.invokeLater(new Runnable() {
+	// public void run() {
+	// try {
+	// ClientViewer frame = new ClientViewer();
+	// ClientController controller = new ClientController(frame);
+	// frame.setController(controller);
+	// frame.addUserToList(user1);
+	// frame.addUserToList(user2);
+	// frame.setVisible(true);
+	// frame.addMessageToList(message1);
+	// frame.addMessageToList(message2);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
+	// }
 
 }

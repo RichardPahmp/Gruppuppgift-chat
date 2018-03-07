@@ -29,7 +29,9 @@ public class UserInput extends JFrame implements ActionListener{
 	private JButton fileButton = new JButton("Upload file");
 	private JButton doneButton = new JButton("Klar");
 
+
 	public UserInput(ClientController controller) {
+
 
 		setTitle("New User");
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));

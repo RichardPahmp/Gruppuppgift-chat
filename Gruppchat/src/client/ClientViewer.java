@@ -1,14 +1,10 @@
 package client;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -21,7 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import chat.TextMessage;
 import chat.User;
 
@@ -34,7 +29,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private JScrollPane scrollPanelText = new JScrollPane();
 	private JScrollPane scrollPanelUsers = new JScrollPane();
 
-	private JFileChooser fc = new JFileChooser();
+	private JFileChooser fileChooser = new JFileChooser();
 
 	private JLabel lblActiveUsers;
 	private JLabel lblNewLabel_1;
@@ -45,9 +40,10 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private JButton btnUploadImage;
 
 	private UserList userList = new UserList();
-
+	
 	private MessageList messageList = new MessageList();
 	private DefaultListModel<User> listContacts;
+
 
 	private ClientController controller;
 	private ImageIcon image;
@@ -124,11 +120,14 @@ public class ClientViewer extends JFrame implements ActionListener {
 	}
 
 	public void uploadImage() {
-		if (fc.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION);
 
-		fc.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
-		if (fc.getSelectedFile() != null) {
-			image = new ImageIcon(fc.getSelectedFile().getAbsolutePath());
+		if (fileChooser.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION);
+
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
+		if (fileChooser.getSelectedFile() != null) {
+			image = new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath());
+			
+			//Resize image to 100x100
 			img = image.getImage();
 			Image newimg = img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
 			image = new ImageIcon(newimg);

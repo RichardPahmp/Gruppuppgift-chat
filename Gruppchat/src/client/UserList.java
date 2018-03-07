@@ -2,12 +2,10 @@ package client;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Frame;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -19,7 +17,7 @@ import chat.User;
 public class UserList extends JPanel {
 	private DefaultListModel<User> listModel = new DefaultListModel<>();
 	private JList<User> list ;
-	private LinkedList<User> selectedList = new LinkedList<User>();
+	private ArrayList<User> selectedList = new ArrayList<User>();
 
 	public UserList() {
 		list = new JList<>(listModel);
@@ -60,7 +58,7 @@ public class UserList extends JPanel {
 		}
 	}
 
-	public LinkedList<User> getReceivers() {
+	public ArrayList<User> getReceivers() {
 		selectedList.clear();
 		for(int i = 0; i<listModel.size();i++) {
 			

@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -42,12 +41,12 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private JButton btnUploadImage;
 
 	private UserList userList = new UserList();
-	
+
 	private MessageList messageList = new MessageList();
 	private DefaultListModel<User> listContacts;
-	
+
 	private ClientController controller;
-	private Icon icon;
+	private ImageIcon icon;
 
 	/**
 	 * Create the frame.
@@ -119,14 +118,14 @@ public class ClientViewer extends JFrame implements ActionListener {
 		return userList;
 	}
 
-	public Icon getUploadedImage() {
-
+	public void uploadImage() {
 		if (fc.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION);
-
-		icon = new ImageIcon (fc.getSelectedFile().getAbsolutePath());;
-	return icon;
+		icon = new ImageIcon(fc.getSelectedFile().getAbsolutePath());
 	}
-	
+
+	public ImageIcon getImage() {
+		return icon;
+	}
 
 	public void addListeners() {
 		btnSendMessage.addActionListener(this);
@@ -138,22 +137,21 @@ public class ClientViewer extends JFrame implements ActionListener {
 			controller.newMessage();
 		}
 		if (e.getSource() == btnUploadImage) {
-			controller.setUploadedImage();
+			uploadImage();
 
 		}
 
 	}
-	
+
 	public void setController(ClientController controller) {
-		this.controller=controller;
+		this.controller = controller;
 	}
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
-		
+
 		ImageIcon icon = new ImageIcon("images/SmallMadeline.png");
 		User user1 = new User("Birger", icon);
 		User user2 = new User("Stefan", icon);

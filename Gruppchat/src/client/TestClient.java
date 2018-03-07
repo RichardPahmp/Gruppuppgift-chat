@@ -20,12 +20,16 @@ public class TestClient{
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private User user;
+	private ClientController controller;
 	
 	public static void main(String[] args) {
-		new TestClient();
+		ClientViewer viewer = new ClientViewer();
+		ClientController controller = new ClientController(viewer);
+		new TestClient(controller);
 	}
 	
-	public TestClient() {
+	public TestClient(ClientController controller) {
+		this.controller = controller;
 		try {
 			socket = new Socket("127.0.0.1", 3280);
 			System.out.println("Connected to server");
@@ -47,7 +51,9 @@ public class TestClient{
 						System.out.println(num.getConnectedUsers());
 					}
 					if(obj instanceof TextMessage) {
-						System.out.println(((TextMessage)obj).getText());
+//						System.out.println(((TextMessage)obj).getText());
+						controller.receivedMessage(((TextMessage)obj));
+						
 					}
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block

@@ -1,9 +1,12 @@
 package client;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -11,8 +14,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class UserInput extends JFrame {
-	private final int width = 300, height = 200;
+import chat.User;
+
+public class UserInput extends JFrame implements ActionListener{
+	private final int WIDTH = 300, HEIGHT = 200;
+	
+	private User newUser;
 
 	private TextField nameField = new TextField("Ange ditt användarnamn...");
 	private TextField imageField = new TextField("Sökväg till bild...");
@@ -22,16 +29,16 @@ public class UserInput extends JFrame {
 	private JButton fileButton = new JButton("Upload file");
 	private JButton doneButton = new JButton("Klar");
 
-	public UserInput() {
+	public UserInput(ClientController controller) {
 
 		setTitle("New User");
-		setPreferredSize(new Dimension(width, height));
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setResizable(false);
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screen = toolkit.getScreenSize();
 
-		setLocation((int) (screen.getWidth() / 2) - (width / 2), ((int) screen.getHeight() / 2) - (height / 2));
+		setLocation((int) (screen.getWidth() / 2) - (WIDTH / 2), ((int) screen.getHeight() / 2) - (HEIGHT / 2));
 
 		JPanel mainPanel = new JPanel();
 		GridLayout gl1 = new GridLayout(7, 1);
@@ -48,12 +55,29 @@ public class UserInput extends JFrame {
 
 		mainPanel.add(new JPanel());
 		mainPanel.add(doneButton);
-
 		add(mainPanel);
 	}
 
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == fileButton) {
+			
+		} else if (e.getSource() == doneButton) {
+			
+		}
+	}
+	
+	private class KeyListener extends KeyAdapter{
+		public void keyReleased(KeyEvent e) {
+			if(e.getKeyCode() == 10) {
+				
+			}
+		}
+	}
+	
 	public static void main(String[] args) {
-		UserInput test = new UserInput();
+		ClientViewer viewer = new ClientViewer();
+		ClientController controller = new ClientController(viewer);
+		UserInput test = new UserInput(controller);
 		test.pack();
 		test.setVisible(true);
 	}

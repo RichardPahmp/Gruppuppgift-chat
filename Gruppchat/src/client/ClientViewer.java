@@ -62,7 +62,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 		scrollPanelUsers.setViewportView(userList);
 		pnlContent.add(scrollPanelUsers, BorderLayout.WEST);
 
-		tfWrite = new TextField("Skriv här..");
+		tfWrite = new TextField("Skriv ditt meddelande här...");
 		tfWrite.setHorizontalAlignment(SwingConstants.LEFT);
 
 		pnlText = new JPanel();

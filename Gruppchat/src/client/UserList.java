@@ -44,7 +44,7 @@ public class UserList extends JPanel {
 		public Component getListCellRendererComponent(JList<? extends User> list, User user, int index,
 				boolean isSelected, boolean cellHasFocus) {
 
-			setIcon(user.getIcon());
+			setIcon(user.getImage());
 			setText(user.getName() + "  ");
 
 			if (isSelected) {

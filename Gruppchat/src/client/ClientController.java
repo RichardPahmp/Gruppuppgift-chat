@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import chat.Message;
 import chat.TextMessage;
@@ -13,6 +14,7 @@ import chat.User;
 public class ClientController {
 	private User user;
 	private ClientViewer viewer;
+	private UserInput userInput;
 	private Message message;
 	private TextMessage textMessage;
 	private ImageIcon image;
@@ -22,6 +24,12 @@ public class ClientController {
 
 	public ClientController(ClientViewer viewer) {
 		this.viewer = viewer;
+	}
+
+	public void setUser(String name, ImageIcon image) {
+		user = new User(name, image);
+		JOptionPane.showConfirmDialog(null, user.getName());
+		JOptionPane.showConfirmDialog(null, user.getImage());
 	}
 
 	public void setUser(User user) {

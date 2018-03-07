@@ -31,6 +31,7 @@ public class UserInput extends JFrame implements ActionListener {
 	private JButton doneButton = new JButton("Klar");
 
 	public UserInput(ClientController controller) {
+
 		this.controller = controller;
 
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));

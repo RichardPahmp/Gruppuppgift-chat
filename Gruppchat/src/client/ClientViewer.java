@@ -120,14 +120,18 @@ public class ClientViewer extends JFrame implements ActionListener {
 	}
 
 	public void uploadImage() {
+
 		if (fileChooser.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION);
+
 		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
-		image = new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath());
-	
-		//Resize image to 100x100
-		img = image.getImage();
-		Image newimg = img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
-		image = new ImageIcon(newimg);
+		if (fileChooser.getSelectedFile() != null) {
+			image = new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath());
+			
+			//Resize image to 100x100
+			img = image.getImage();
+			Image newimg = img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+			image = new ImageIcon(newimg);
+		}
 	}
 
 	public ImageIcon getImage() {

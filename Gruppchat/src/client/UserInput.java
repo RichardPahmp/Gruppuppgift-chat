@@ -44,6 +44,7 @@ public class UserInput extends JFrame implements ActionListener {
 
 		mainPanel.add(new JLabel("Namn: "));
 		mainPanel.add(nameField);
+		//nameField.requestFocus();
 
 		mainPanel.add(new JLabel("Bild: "));
 		imageField.setFocusable(false);
@@ -57,6 +58,8 @@ public class UserInput extends JFrame implements ActionListener {
 		doneButton.addActionListener(this);
 		
 		add(mainPanel);
+		
+		mainPanel.getRootPane().setDefaultButton(doneButton);
 	}
 
 	public void actionPerformed(ActionEvent e) {

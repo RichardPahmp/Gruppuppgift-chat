@@ -2,13 +2,17 @@ package client;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionListener;
 
@@ -20,10 +24,11 @@ public class UserList extends JPanel {
 	private JList<User> list;
 
 
-	public UserList() {
+	public UserList(MouseListener listener) {
 		list = new JList<>(listModel);
 		list.setCellRenderer(new UserRenderer());
 		list.setBackground(new Color(238, 238, 238));
+		list.addMouseListener(null);
 		add(list);
 	}
 

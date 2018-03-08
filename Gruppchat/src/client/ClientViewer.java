@@ -3,8 +3,11 @@ package client;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -13,11 +16,16 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import chat.Contacts;
 import chat.TextMessage;
 import chat.User;
 
@@ -44,7 +52,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private JButton btnAddToContacts;
 	private JButton editUser;
 
-	private UserList userList = new UserList();
+	private UserList userList = new UserList(new popupListener());
 	
 	private MessageList messageList = new MessageList();
 	//TODO
@@ -53,6 +61,10 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private ClientController controller;
 	private ImageIcon image;
 	private Image img;
+	
+	private JPopupMenu popupMenu;
+	
+	private Contacts contacts;
 
 	/**
 	 * Create the frame.
@@ -101,6 +113,14 @@ public class ClientViewer extends JFrame implements ActionListener {
 		btnSendMessage = new JButton("Send Message");
 		pnlButtons.add(btnSendMessage);
 		addListeners();
+		pnlButtons.getRootPane().setDefaultButton(btnSendMessage);
+
+		popupMenu = new JPopupMenu();
+		JMenuItem menuItem = new JMenuItem("Add Contact");
+		menuItem.addActionListener(this);
+		popupMenu.add(menuItem);
+		
+		contacts = new Contacts();
 	}
 
 	public void addUserToList(User user) {
@@ -110,10 +130,6 @@ public class ClientViewer extends JFrame implements ActionListener {
 
 	public void addMessageToList(TextMessage message) {
 		messageList.addMessage(message);
-	}
-
-	public void setContacts(User user) {
-		// contactList.addUser(user);
 	}
 
 	public String getText() {
@@ -154,14 +170,36 @@ public class ClientViewer extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnSendMessage) {
 			controller.newMessage();
+			tfWrite.clear();
 		}
 		if (e.getSource() == btnUploadImage) {
 			uploadImage();
-
+		}
+		if(e.getSource() instanceof JMenuItem){
+			contacts.addContact(userList.getSelectedUsers());
+			System.out.println("Uppdatera kontakterna för fan");
 		}
 	}
 
 	public void setController(ClientController controller) {
 		this.controller = controller;
 	}
+	
+//	private class popupMenu extends JPopupMenu{
+//		JMenuItem menuItem;
+//		
+//		public popupMenu(){
+//			menuItem = new JMenuItem("Add contact.");
+//			add(menuItem);
+//		}
+//	}
+	
+	private class popupListener extends MouseAdapter{
+		public void mousePressed(MouseEvent e){
+			if(e.getButton() == MouseEvent.BUTTON3){
+				popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			}
+		}
+	}
+	
 }

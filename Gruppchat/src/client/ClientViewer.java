@@ -10,7 +10,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -36,6 +35,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private JPanel pnlButtons;
 	private JScrollPane scrollPanelText = new JScrollPane();
 	private JScrollPane scrollPanelUsers = new JScrollPane();
+	private JScrollPane scrollPanelContacts = new JScrollPane();
 
 	private JFileChooser fileChooser = new JFileChooser();
 
@@ -47,22 +47,21 @@ public class ClientViewer extends JFrame implements ActionListener {
 
 	private JButton btnSendMessage;
 	private JButton btnUploadImage;
-	//TODO
-	private JButton btnAddToContacts;
+	// TODO
+
 	private JButton editUser;
 
 	private UserList userList = new UserList(new popupListener());
-	
 	private MessageList messageList = new MessageList();
-	//TODO
-	private DefaultListModel<User> listContacts;
+	// TODO
+	private UserList contactList = new UserList(null);
 
 	private ClientController controller;
 	private ImageIcon image;
 	private Image img;
-	
+
 	private JPopupMenu popupMenu;
-	
+
 	private Contacts contacts;
 
 	/**
@@ -75,9 +74,16 @@ public class ClientViewer extends JFrame implements ActionListener {
 		pnlContent.setBorder(new EmptyBorder(5, 5, 5, 5));
 		pnlContent.setLayout(new BorderLayout(0, 0));
 		setContentPane(pnlContent);
+		
 		scrollPanelUsers.setViewportView(userList);
+		scrollPanelUsers.setPreferredSize(new Dimension(100,300));
 		pnlContent.add(scrollPanelUsers, BorderLayout.WEST);
-
+		scrollPanelContacts.setViewportView(contactList);
+		scrollPanelContacts.setPreferredSize(new Dimension(100,300));
+		pnlContent.add(scrollPanelContacts,BorderLayout.EAST);
+		contacts = new Contacts();
+		readInContacts();
+		
 		tfWrite = new TextField("Skriv ditt meddelande här...");
 		tfWrite.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -89,11 +95,13 @@ public class ClientViewer extends JFrame implements ActionListener {
 
 		pnlContent.add(pnlText, BorderLayout.CENTER);
 		tfWrite.setColumns(10);
-
+		
+	
 		pnlUsers = new JPanel();
 		pnlContent.add(pnlUsers, BorderLayout.NORTH);
 		pnlUsers.setLayout(new GridLayout(0, 2, 0, 0));
 
+		
 		lblActiveUsers = new JLabel("Active users");
 		lblActiveUsers.setHorizontalAlignment(SwingConstants.LEFT);
 		lblActiveUsers.setVerticalAlignment(SwingConstants.TOP);
@@ -118,8 +126,8 @@ public class ClientViewer extends JFrame implements ActionListener {
 		JMenuItem menuItem = new JMenuItem("Add Contact");
 		menuItem.addActionListener(this);
 		popupMenu.add(menuItem);
+
 		
-		contacts = new Contacts();
 	}
 
 	public void addUserToList(User user) {
@@ -136,16 +144,18 @@ public class ClientViewer extends JFrame implements ActionListener {
 	}
 
 	public ArrayList<User> getSelectedActiveUsers() {
+		
 		return userList.getSelectedUsers();
 	}
 
 	public void uploadImage() {
-		if (fileChooser.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION);
+		if (fileChooser.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION)
+			;
 
 		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
 		if (fileChooser.getSelectedFile() != null) {
 			image = new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath());
-			//Resize image to 100x100
+			// Resize image to 100x100
 			img = image.getImage();
 			Image newimg = img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
 			image = new ImageIcon(newimg);
@@ -173,9 +183,12 @@ public class ClientViewer extends JFrame implements ActionListener {
 		if (e.getSource() == btnUploadImage) {
 			uploadImage();
 		}
-		if(e.getSource() instanceof JMenuItem){
+		if (e.getSource() instanceof JMenuItem) {
 			contacts.addContact(userList.getSelectedUsers());
 			System.out.println("Uppdatera kontakterna för fan");
+			readInContacts();
+			this.setBounds(100, 100, 550, 300);
+			
 		}
 	}
 
@@ -183,21 +196,28 @@ public class ClientViewer extends JFrame implements ActionListener {
 		this.controller = controller;
 	}
 	
-//	private class popupMenu extends JPopupMenu{
-//		JMenuItem menuItem;
-//		
-//		public popupMenu(){
-//			menuItem = new JMenuItem("Add contact.");
-//			add(menuItem);
-//		}
-//	}
-	
-	private class popupListener extends MouseAdapter{
-		public void mousePressed(MouseEvent e){
-			if(e.getButton() == MouseEvent.BUTTON3){
+	public void readInContacts() {
+		contactList.clearList();
+		for(User u : contacts.getList()) {
+			contactList.addUser(u);
+		}
+	}
+
+	// private class popupMenu extends JPopupMenu{
+	// JMenuItem menuItem;
+	//
+	// public popupMenu(){
+	// menuItem = new JMenuItem("Add contact.");
+	// add(menuItem);
+	// }
+	// }
+
+	private class popupListener extends MouseAdapter {
+		public void mousePressed(MouseEvent e) {
+			if (e.getButton() == MouseEvent.BUTTON3) {
 				popupMenu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		}
 	}
-	
+
 }

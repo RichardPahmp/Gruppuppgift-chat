@@ -28,7 +28,7 @@ public class UserList extends JPanel {
 		list = new JList<>(listModel);
 		list.setCellRenderer(new UserRenderer());
 		list.setBackground(new Color(238, 238, 238));
-		list.addMouseListener(null);
+		list.addMouseListener(listener);
 		add(list);
 	}
 
@@ -37,6 +37,9 @@ public class UserList extends JPanel {
 		setUsers(activeUsers);
 	}
 
+	public void clearList() {
+		activeUsers.clear();
+	}
 	public void setUsers(ArrayList<User> list) {
 		listModel.clear();
 		for (User u : list) {

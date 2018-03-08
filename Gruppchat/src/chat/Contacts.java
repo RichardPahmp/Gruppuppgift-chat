@@ -22,8 +22,12 @@ public class Contacts {
 	}
 	
 	public void addContact(User user) {
+		if(!list.contains(user)) {
 		list.add(user);
+		}
 	}
+	
+	
 	
 	public void addContact(ArrayList<User> users){
 		for(User user : users){

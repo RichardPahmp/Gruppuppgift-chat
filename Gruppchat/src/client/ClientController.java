@@ -102,7 +102,7 @@ public class ClientController extends Thread {
 
 	public void newMessage(ArrayList<User> receivers) {
 		text = viewer.getText();
-		if (text.length() > 0) {
+		if (text.length() > 0 || viewer.getImage() != null) {
 			receivers.add(user);
 			image = viewer.getImage();
 			textMessage = new TextMessage(user, receivers, text, image);

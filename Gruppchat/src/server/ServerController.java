@@ -101,8 +101,10 @@ public class ServerController implements ClientListener, WindowListener {
 	 */
 	private void sendToList(TextMessage message) {
 		ArrayList<User> receivers = message.getReceivers();
-		if(receivers.size() <= 0){
+		//If the only receivers is the sender then send to all users
+		if(receivers.size() <= 1){
 			sendToAll(message);
+			return;
 		}
 		for (User user : receivers) {
 			if (userMap.containsKey(user)) {

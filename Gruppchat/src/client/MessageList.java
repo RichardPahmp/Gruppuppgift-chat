@@ -50,13 +50,16 @@ public class MessageList extends JPanel {
 		list.addListSelectionListener(listener);
 	}
 
-	private class MessageRenderer extends JLabel implements ListCellRenderer<Message> {
+	private class MessageRenderer extends JPanel implements ListCellRenderer<Message> {
+		private JLabel label;
 		public MessageRenderer() {
 			setOpaque(false);
 		}
 
 		public Component getListCellRendererComponent(JList<? extends Message> list, Message message, int index,
 				boolean isSelected, boolean cellHasFocus) {
+			label = new JLabel();
+			label.setOpaque(false);
 			if(message instanceof TextMessage){
 				TextMessage mess = (TextMessage)message;
 				String messageReceivers = "";
@@ -64,19 +67,22 @@ public class MessageList extends JPanel {
 					messageReceivers = " till " + mess.getReceivers().toString().substring(1,
 							mess.getReceivers().toString().length() - 1);
 				}
-				setText("[" + mess.getDateReceived() + "] " + mess.getSender().getName() + ": "
+				label.setText("[" + mess.getDateReceived() + "] " + mess.getSender().getName() + ": "
 						+ mess.getText());
-				setIcon(mess.getImage());
+				this.add(label, BorderLayout.WEST);
+				if(mess.getImage() != null){
+					label.setIcon(mess.getImage());
+				}
 
-				return this;
+				return label;
 			} else if(message instanceof UserConnectedMessage){
 				UserConnectedMessage mess = (UserConnectedMessage)message;
-				setText("[" + mess.getDateReceived() + "] " + mess.getNewUser().getName() + " has connected to the chat");
-				return this;
+				label.setText("[" + mess.getDateReceived() + "] " + mess.getNewUser().getName() + " has connected to the chat");
+				return label;
 			} else if(message instanceof UserDisconnectedMessage){
 				UserDisconnectedMessage mess = (UserDisconnectedMessage)message;
-				setText("[" + mess.getDateReceived() + "] " + mess.getDisconnectedUser().getName() + " has disconnected from the chat");
-				return this;
+				label.setText("[" + mess.getDateReceived() + "] " + mess.getDisconnectedUser().getName() + " has disconnected from the chat");
+				return label;
 			}
 			
 			return null;

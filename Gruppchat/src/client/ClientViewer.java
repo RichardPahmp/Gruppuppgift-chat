@@ -126,7 +126,6 @@ public class ClientViewer extends JFrame implements ActionListener {
 		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
 		if (fileChooser.getSelectedFile() != null) {
 			image = new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath());
-			
 			//Resize image to 100x100
 			img = image.getImage();
 			Image newimg = img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);

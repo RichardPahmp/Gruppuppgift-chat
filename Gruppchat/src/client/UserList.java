@@ -37,6 +37,9 @@ public class UserList extends JPanel {
 		setUsers(activeUsers);
 	}
 
+	public void clearList() {
+		activeUsers.clear();
+	}
 	public void setUsers(ArrayList<User> list) {
 		listModel.clear();
 		for (User u : list) {

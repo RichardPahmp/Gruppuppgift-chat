@@ -29,8 +29,6 @@ public class ClientMain {
 				try {
 
 					frame.setController(controller);
-					frame.addUserToList(user1);
-					frame.addUserToList(user2);
 					frame.setVisible(true);
 
 				} catch (Exception e) {

@@ -28,7 +28,7 @@ public class UserList extends JPanel {
 		list = new JList<>(listModel);
 		list.setCellRenderer(new UserRenderer());
 		list.setBackground(new Color(238, 238, 238));
-		list.addMouseListener(null);
+		list.addMouseListener(listener);
 		add(list);
 	}
 

@@ -31,16 +31,16 @@ public class UserInput extends JFrame implements ActionListener {
 
 	private JButton fileButton = new JButton("Upload file");
 	private JButton doneButton = new JButton("Klar");
-	private final JTextField txtIp = new JTextField();
-	private final JTextField textField = new JTextField();
+	private final JTextField tfIp = new JTextField();
+	private final JTextField tfPort = new JTextField();
 
 	public UserInput(ClientController controller) {
-		textField.setToolTipText("port");
-		textField.setText("3280");
-		textField.setColumns(10);
-		txtIp.setToolTipText("ip-address");
-		txtIp.setText("127.0.0.1");
-		txtIp.setColumns(10);
+		tfPort.setToolTipText("port");
+		tfPort.setText("3280");
+		tfPort.setColumns(10);
+		tfIp.setToolTipText("ip-address");
+		tfIp.setText("127.0.0.1");
+		tfIp.setColumns(10);
 		this.controller = controller;
 
 		setSize(new Dimension(250, 201));
@@ -66,9 +66,9 @@ public class UserInput extends JFrame implements ActionListener {
 		JPanel panel = new JPanel();
 		mainPanel.add(panel);
 		
-		panel.add(txtIp);
+		panel.add(tfIp);
 		
-		panel.add(textField);
+		panel.add(tfPort);
 		mainPanel.add(doneButton);
 		doneButton.addActionListener(this);
 		
@@ -95,7 +95,7 @@ public class UserInput extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Enter a name!");
 				return;
 			}
-			controller.setUser(nameField.getText(), image);
+			controller.connect(nameField.getText(), image);
 			nameField.clear();
 			this.dispose();
 		}

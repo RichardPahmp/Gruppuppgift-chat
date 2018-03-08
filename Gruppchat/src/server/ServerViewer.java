@@ -1,20 +1,23 @@
 package server;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 
 public class ServerViewer extends JFrame {
 
 	private JTextArea textLogg = new JTextArea();
+	private JScrollPane scrollPanel = new JScrollPane();
 
 	public ServerViewer() {
 
-		this.setBounds(100, 100, 350, 500);
+		this.setBounds(700, 100, 350, 500);
 		this.setTitle("Serverlogg");
 		
 		textLogg.setEditable(false);
-		this.add(textLogg);
+		scrollPanel.setViewportView(textLogg);
+		this.add(scrollPanel);
 		
 		this.setVisible(true);
 	}

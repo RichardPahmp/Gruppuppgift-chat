@@ -43,6 +43,7 @@ public class UserList extends JPanel {
 	public void setUsers(ArrayList<User> list) {
 		listModel.clear();
 		for (User u : list) {
+			activeUsers.add(u);
 			listModel.addElement(u);
 		}
 		repaint();

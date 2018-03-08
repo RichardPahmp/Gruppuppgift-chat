@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -76,6 +77,10 @@ public class UserInput extends JFrame implements ActionListener {
 			}
 
 		} else if (e.getSource() == doneButton) {
+			if(nameField.getText().length() <= 0){
+				JOptionPane.showMessageDialog(null, "Enter a name!");
+				return;
+			}
 			controller.setUser(nameField.getText(), image);
 			nameField.clear();
 			this.dispose();

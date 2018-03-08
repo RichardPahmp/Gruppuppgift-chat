@@ -193,7 +193,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 		if (e.getSource() instanceof JMenuItem) {
 			contacts.addContact(userList.getSelectedUsers());
 			readInContacts();
-			this.setBounds(100, 100, 550, 300);
+
 			
 		}
 	}

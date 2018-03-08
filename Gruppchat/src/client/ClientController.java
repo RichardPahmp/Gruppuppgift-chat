@@ -25,9 +25,9 @@ public class ClientController {
 		newUser();
 		this.viewer = viewer;
 	}
-	
+
 	public void newUser() {
-		UserInput userInput = new UserInput(this);	
+		UserInput userInput = new UserInput(this);
 		userInput.setVisible(true);
 	}
 
@@ -36,16 +36,18 @@ public class ClientController {
 	}
 
 	public void newMessage() {
-		receivers = viewer.getSelectedActiveUsers();
-		System.out.println(receivers);
 		text = viewer.getText();
-		image = viewer.getImage();
-		textMessage = new TextMessage(user, receivers, text, image);
-		viewer.eraseImage();
-		receivedMessage(textMessage);
+		if (text.length() > 0) {
+			receivers = viewer.getSelectedActiveUsers();
+			image = viewer.getImage();
+			textMessage = new TextMessage(user, receivers, text, image);
+			viewer.eraseImage();
+			receivedMessage(textMessage);
+		}
 	}
 
 	public void receivedMessage(TextMessage message) {
+		message.setDateReceived();
 		viewer.addMessageToList(message);
 
 	}

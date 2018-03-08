@@ -125,7 +125,6 @@ public class ClientViewer extends JFrame implements ActionListener {
 	}
 
 	public void uploadImage() {
-
 		if (fileChooser.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION);
 
 		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
@@ -160,43 +159,9 @@ public class ClientViewer extends JFrame implements ActionListener {
 			uploadImage();
 
 		}
-
 	}
 
 	public void setController(ClientController controller) {
 		this.controller = controller;
 	}
-
-	/**
-	 * Launch the application.
-	 */
-	// public static void main(String[] args) {
-	//
-	// ImageIcon icon = new ImageIcon("images/SmallMadeline.png");
-	// User user1 = new User("Birger", icon);
-	// User user2 = new User("Stefan", icon);
-	//
-	// ArrayList<User> userList = new ArrayList<User>();
-	// userList.add(user2);
-	// TextMessage message1 = new TextMessage(user2, userList, "Hejsan", icon);
-	// TextMessage message2 = new TextMessage(user1, userList, "Tjena", null);
-	//
-	// EventQueue.invokeLater(new Runnable() {
-	// public void run() {
-	// try {
-	// ClientViewer frame = new ClientViewer();
-	// ClientController controller = new ClientController(frame);
-	// frame.setController(controller);
-	// frame.addUserToList(user1);
-	// frame.addUserToList(user2);
-	// frame.setVisible(true);
-	// frame.addMessageToList(message1);
-	// frame.addMessageToList(message2);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// });
-	// }
-
 }

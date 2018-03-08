@@ -50,7 +50,6 @@ public class UserList extends JPanel {
 		for (int i = 0; i < listModel.size(); i++) {
 			if (list.isSelectedIndex(i)) {
 				selectedList.add(activeUsers.get(i));
-//				selectedList.add(listModel.getElementAt(i));
 			}
 		}
 		return selectedList;

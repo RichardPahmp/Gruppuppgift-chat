@@ -69,6 +69,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public ClientViewer() {
+		//Set the frame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 300);
 		pnlContent = new JPanel();
@@ -76,15 +77,19 @@ public class ClientViewer extends JFrame implements ActionListener {
 		pnlContent.setLayout(new BorderLayout(0, 0));
 		setContentPane(pnlContent);
 		
+		//Add the panel that contains active users
 		scrollPanelUsers.setViewportView(userList);
 		scrollPanelUsers.setPreferredSize(new Dimension(100,300));
 		pnlContent.add(scrollPanelUsers, BorderLayout.WEST);
+		
+		//Add the panel that contains contacts
 		scrollPanelContacts.setViewportView(contactList);
 		scrollPanelContacts.setPreferredSize(new Dimension(100,300));
 		pnlContent.add(scrollPanelContacts,BorderLayout.EAST);
 		contacts = new Contacts();
 		readInContacts();
 		
+		//Add the textpanels
 		tfWrite = new TextField("Skriv ditt meddelande här...");
 		tfWrite.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -97,32 +102,30 @@ public class ClientViewer extends JFrame implements ActionListener {
 		pnlContent.add(pnlText, BorderLayout.CENTER);
 		tfWrite.setColumns(10);
 		
-	
+	//Labels for userlist and contactlist
 		pnlUsers = new JPanel();
 		pnlContent.add(pnlUsers, BorderLayout.NORTH);
 		pnlUsers.setLayout(new GridLayout(0, 2, 0, 0));
-
-		
 		lblActiveUsers = new JLabel("Active users");
 		lblActiveUsers.setHorizontalAlignment(SwingConstants.LEFT);
 		lblActiveUsers.setVerticalAlignment(SwingConstants.TOP);
 		pnlUsers.add(lblActiveUsers);
-
 		lblContacts = new JLabel("Contacts");
 		lblContacts.setHorizontalAlignment(SwingConstants.RIGHT);
 		pnlUsers.add(lblContacts);
 
+		//Add panel containing buttons
 		pnlButtons = new JPanel();
 		pnlContent.add(pnlButtons, BorderLayout.SOUTH);
-
 		btnUploadImage = new JButton("Upload File");
 		pnlButtons.add(btnUploadImage);
-
 		btnSendMessage = new JButton("Send Message");
 		pnlButtons.add(btnSendMessage);
-		addListeners();
+		
+		addListeners();  
 		pnlButtons.getRootPane().setDefaultButton(btnSendMessage);
 
+		//Add popup menu
 		popupMenu = new JPopupMenu();
 		JMenuItem menuItem = new JMenuItem("Add Contact");
 		menuItem.addActionListener(this);
@@ -189,9 +192,8 @@ public class ClientViewer extends JFrame implements ActionListener {
 		}
 		if (e.getSource() instanceof JMenuItem) {
 			contacts.addContact(userList.getSelectedUsers());
-			System.out.println("Uppdatera kontakterna för fan");
 			readInContacts();
-			this.setBounds(100, 100, 550, 300);
+
 			
 		}
 	}
@@ -207,14 +209,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 		}
 	}
 
-	// private class popupMenu extends JPopupMenu{
-	// JMenuItem menuItem;
-	//
-	// public popupMenu(){
-	// menuItem = new JMenuItem("Add contact.");
-	// add(menuItem);
-	// }
-	// }
+
 
 	private class popupListener extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {

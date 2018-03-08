@@ -15,10 +15,12 @@ public class ServerViewer extends JFrame {
 		
 		textLogg.setEditable(false);
 		this.add(textLogg);
+		
+		this.setVisible(true);
 	}
 
-	public void appendText(String message) {
-		textLogg.append(message);
+	public void appendLine(String message) {
+		textLogg.append(message + "\n");
 	}
 		
 	
@@ -26,6 +28,5 @@ public class ServerViewer extends JFrame {
 	public static void main(String[] args) {
 		ServerViewer frame = new ServerViewer();
 		frame.setVisible(true);
-
 	}
 }

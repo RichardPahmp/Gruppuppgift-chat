@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Contacts {
@@ -22,6 +23,12 @@ public class Contacts {
 	
 	public void addContact(User user) {
 		list.add(user);
+	}
+	
+	public void addContact(ArrayList<User> users){
+		for(User user : users){
+			addContact(user);
+		}
 	}
 	
 	public void writeFile() {

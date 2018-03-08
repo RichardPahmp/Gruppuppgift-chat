@@ -10,6 +10,7 @@ import chat.User;
 
 public class ClientMain {
 
+	
 	public static void main(String[] args) {
 //Test--------------------------------------
 		ImageIcon icon = new ImageIcon("images/SmallMadeline.png");
@@ -27,9 +28,6 @@ public class ClientMain {
 			public void run() {
 				try {
 
-					controller.setUser(me);
-
-					new UserInput(controller);
 					frame.setController(controller);
 					frame.addUserToList(user1);
 					frame.addUserToList(user2);

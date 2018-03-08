@@ -17,7 +17,7 @@ public class User implements Serializable {
 		return name;
 	}
 	
-	public ImageIcon getIcon() {
+	public ImageIcon getImage() {
 		return icon;
 	}
 	

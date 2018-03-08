@@ -1,5 +1,7 @@
 package server;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,12 +16,13 @@ import chat.User;
 import chat.UserConnectedMessage;
 import chat.UserDisconnectedMessage;
 
-public class ServerController implements ClientListener {
+public class ServerController implements ClientListener, WindowListener {
 	private SynchronizedHashMap<User, Client> userMap;
 	private SynchronizedHashMap<User, TextMessage> savedMessagesMap;
 
 	private ServerSocket serverSocket;
 	
+	private ServerViewer viewer;
 
 	// testmain
 	public static void main(String[] args) {
@@ -29,11 +32,13 @@ public class ServerController implements ClientListener {
 	public ServerController(int port) {
 		userMap = new SynchronizedHashMap<User, Client>();
 		savedMessagesMap = new SynchronizedHashMap<User, TextMessage>();
+		viewer = new ServerViewer();
+		viewer.addWindowListener(this);
 		try {
 			serverSocket = new ServerSocket(port);
 			start();
 		} catch (IOException e) {
-			System.err.println("ServerSocket failed to start.");
+			viewer.appendLine("Server failed to start.");
 			e.printStackTrace();
 		}
 	}
@@ -42,7 +47,7 @@ public class ServerController implements ClientListener {
 
 
 	public void start() {
-		System.out.println("Server has started.");
+		viewer.appendLine("Server has started.");
 		try {
 			while (true) {
 				Socket socket = serverSocket.accept();
@@ -54,12 +59,17 @@ public class ServerController implements ClientListener {
 		}
 	}
 
+	/**
+	 * Handle messages sent to the server.
+	 */
 	@Override
 	public void messageReceived(Message m) {
 		if (m instanceof TextMessage) {
 			TextMessage cm = (TextMessage) m;
 			cm.setDateReceived();
 			sendToList(cm);
+			viewer.appendLine("Text message received from " + cm.getSender().getName() + ".");
+			viewer.appendLine(cm.getDateReceived() + " " + cm.getText());
 		}
 	}
 
@@ -130,7 +140,7 @@ public class ServerController implements ClientListener {
 				savedMessagesMap.remove(user);
 			}
 		}
-		System.out.println("New Client accepted: " + user.getName());
+		viewer.appendLine("New Client accepted: " + user.getName());
 	}
 
 	@Override
@@ -138,6 +148,49 @@ public class ServerController implements ClientListener {
 		userMap.remove(user);
 		UserDisconnectedMessage message = new UserDisconnectedMessage(new ArrayList<User>(userMap.keySet()), user);
 		sendToAll(message);
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		viewer.appendLine("Exiting.");
+		System.exit(0);
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

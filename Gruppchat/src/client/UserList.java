@@ -2,13 +2,17 @@ package client;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionListener;
 
@@ -16,19 +20,44 @@ import chat.User;
 
 public class UserList extends JPanel {
 	private DefaultListModel<User> listModel = new DefaultListModel<>();
-	private JList<User> list ;
-	private ArrayList<User> selectedList = new ArrayList<User>();
+	private ArrayList<User> activeUsers = new ArrayList<User>();
+	private JList<User> list;
 
-	public UserList() {
+
+	public UserList(MouseListener listener) {
 		list = new JList<>(listModel);
 		list.setCellRenderer(new UserRenderer());
 		list.setBackground(new Color(238, 238, 238));
+		list.addMouseListener(null);
 		add(list);
 	}
 
 	public void addUser(User user) {
-		listModel.addElement(user);
+		activeUsers.add(user);
+		setUsers(activeUsers);
+	}
+
+	public void setUsers(ArrayList<User> list) {
+		listModel.clear();
+		for (User u : list) {
+			listModel.addElement(u);
+		}
 		repaint();
+	}
+
+	public ArrayList<User> getUsers() {
+		return activeUsers;
+	}
+
+	public ArrayList<User> getSelectedUsers() {
+		ArrayList<User> selectedList = new ArrayList<User>();
+		
+		for (int i = 0; i < listModel.size(); i++) {
+			if (list.isSelectedIndex(i)) {
+				selectedList.add(activeUsers.get(i));
+			}
+		}
+		return selectedList;
 	}
 
 	public void addListener(ListSelectionListener listener) {
@@ -44,8 +73,8 @@ public class UserList extends JPanel {
 		public Component getListCellRendererComponent(JList<? extends User> list, User user, int index,
 				boolean isSelected, boolean cellHasFocus) {
 
-			setIcon(user.getIcon());
-			setText(user.getName() + "  ");
+			setIcon(user.getImage());
+			setText(user.getName() + " ");
 
 			if (isSelected) {
 				setBackground(list.getSelectionBackground());
@@ -57,19 +86,4 @@ public class UserList extends JPanel {
 			return this;
 		}
 	}
-
-	public ArrayList<User> getReceivers() {
-		selectedList.clear();
-		for(int i = 0; i<listModel.size();i++) {
-			
-			if(list.isSelectedIndex(i)) {
-				selectedList.add(listModel.getElementAt(i));
-			}
-		}
-
-		return selectedList;
-	}
-
-	
-
 }

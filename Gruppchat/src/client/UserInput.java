@@ -95,7 +95,7 @@ public class UserInput extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Enter a name!");
 				return;
 			}
-			controller.connect(nameField.getText(), image);
+			controller.connect(tfIp.getText(), tfPort.getText(), nameField.getText(), image);
 			nameField.clear();
 			this.dispose();
 		}

@@ -32,6 +32,13 @@ public class ServerController implements ClientListener, WindowListener {
 	public ServerController(int port) {
 		userMap = new SynchronizedHashMap<User, Client>();
 		savedMessagesMap = new SynchronizedHashMap<User, TextMessage>();
+		User user = new User("asd", null);
+		User user2 = new User("qwe", null);
+		ArrayList<User> list = new ArrayList<User>();
+		list.add(user);
+		TextMessage mess = new TextMessage(user2, list, "wow", null);
+		savedMessagesMap.put(user, mess);
+		savedMessagesMap.put(user, mess);
 		viewer = new ServerViewer();
 		viewer.addWindowListener(this);
 		try {

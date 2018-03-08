@@ -14,6 +14,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionListener;
 
 import chat.Message;
@@ -24,7 +25,7 @@ import chat.UserDisconnectedMessage;
 
 public class MessageList extends JPanel {
 	private DefaultListModel<Message> listModel = new DefaultListModel<Message>();
-	private JList<Message> list = new JList<Message>();
+	private JList<Message> list;
 
 	public MessageList() {
 		this.setLayout(new BorderLayout());
@@ -35,10 +36,13 @@ public class MessageList extends JPanel {
 		add(list, BorderLayout.WEST);
 	}
 
-	public void addMessage(Message message) {
-		listModel.addElement(message);
-		//list = new JList<>(listModel);
-		list.setModel(listModel);
+	public synchronized void addMessage(Message message) {
+		SwingUtilities.invokeLater(new Runnable(){
+			public void run(){
+				listModel.addElement(message);
+				list.setModel(listModel);
+			}
+		});
 		repaint();
 	}
 
@@ -53,8 +57,6 @@ public class MessageList extends JPanel {
 
 		public Component getListCellRendererComponent(JList<? extends Message> list, Message message, int index,
 				boolean isSelected, boolean cellHasFocus) {
-			if(message == null)
-				return new JLabel("wtf");
 			if(message instanceof TextMessage){
 				TextMessage mess = (TextMessage)message;
 				String messageReceivers = "";

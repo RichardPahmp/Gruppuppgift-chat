@@ -11,6 +11,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import chat.Contacts;
 import chat.Message;
 import chat.TextMessage;
 import chat.User;
@@ -22,8 +23,6 @@ public class ClientController extends Thread {
 	private ClientViewer viewer;
 	private TextMessage textMessage;
 	private ImageIcon image;
-	private ArrayList<User> receivers;
-	private ArrayList<User> active;
 	private String text;
 	
 	private Socket socket;
@@ -101,10 +100,9 @@ public class ClientController extends Thread {
 		start();
 	}
 
-	public void newMessage() {
+	public void newMessage(ArrayList<User> receivers) {
 		text = viewer.getText();
 		if (text.length() > 0) {
-			receivers = viewer.getSelectedActiveUsers();
 			receivers.add(user);
 			image = viewer.getImage();
 			textMessage = new TextMessage(user, receivers, text, image);

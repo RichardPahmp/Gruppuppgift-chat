@@ -184,8 +184,16 @@ public class ClientViewer extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnSendMessage) {
-			controller.newMessage();
+			ArrayList<User> receivers = getSelectedActiveUsers();
+			for(User user : contacts.getList()){
+				if(receivers.contains(user)){
+					continue;
+				}
+				receivers.add(user);
+			}
+			controller.newMessage(receivers);
 			tfWrite.clear();
+			repaint();
 		}
 		if (e.getSource() == btnUploadImage) {
 			uploadImage();

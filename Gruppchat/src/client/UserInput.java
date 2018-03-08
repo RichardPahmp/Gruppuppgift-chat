@@ -20,7 +20,7 @@ public class UserInput extends JFrame implements ActionListener {
 	private ClientController controller;
 	private final int WIDTH = 250, HEIGHT = 180;
 
-	private ImageIcon image = new ImageIcon("images/Granny.png");
+	private ImageIcon image;
 
 	private TextField nameField = new TextField("Ange ditt användarnamn...");
 	private TextField imageField = new TextField("Sökväg till bild...");
@@ -31,10 +31,9 @@ public class UserInput extends JFrame implements ActionListener {
 	private JButton doneButton = new JButton("Klar");
 
 	public UserInput(ClientController controller) {
-
 		this.controller = controller;
 
-		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		setSize(new Dimension(WIDTH, HEIGHT));
 		setResizable(false);
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screen = toolkit.getScreenSize();
@@ -74,22 +73,9 @@ public class UserInput extends JFrame implements ActionListener {
 			}
 
 		} else if (e.getSource() == doneButton) {
-			String name;
-			if(nameField.getText().length() > 0) {
-				name = nameField.getText();
-			} else {
-				name = "Gäst";
-			}
 			nameField.clear();
-			controller.setUser(name, image);
+			controller.setUser(nameField.getText(), image);
+			this.dispose();
 		}
-	}
-
-	public static void main(String[] args) {
-		ClientViewer viewer = new ClientViewer();
-		ClientController controller = new ClientController(viewer);
-		UserInput test = new UserInput(controller);
-		test.pack();
-		test.setVisible(true);
 	}
 }

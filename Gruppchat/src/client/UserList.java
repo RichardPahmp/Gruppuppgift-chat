@@ -16,8 +16,9 @@ import chat.User;
 
 public class UserList extends JPanel {
 	private DefaultListModel<User> listModel = new DefaultListModel<>();
-	private JList<User> list ;
-	private ArrayList<User> selectedList = new ArrayList<User>();
+	private ArrayList<User> activeUsers = new ArrayList<User>();
+	private JList<User> list;
+
 
 	public UserList() {
 		list = new JList<>(listModel);
@@ -27,8 +28,32 @@ public class UserList extends JPanel {
 	}
 
 	public void addUser(User user) {
-		listModel.addElement(user);
+		activeUsers.add(user);
+		setUsers(activeUsers);
+	}
+
+	public void setUsers(ArrayList<User> list) {
+		listModel.clear();
+		for (User u : list) {
+			listModel.addElement(u);
+		}
 		repaint();
+	}
+
+	public ArrayList<User> getUsers() {
+		return activeUsers;
+	}
+
+	public ArrayList<User> getSelectedUsers() {
+		ArrayList<User> selectedList = new ArrayList<User>();
+		
+		for (int i = 0; i < listModel.size(); i++) {
+			if (list.isSelectedIndex(i)) {
+				selectedList.add(activeUsers.get(i));
+//				selectedList.add(listModel.getElementAt(i));
+			}
+		}
+		return selectedList;
 	}
 
 	public void addListener(ListSelectionListener listener) {
@@ -45,7 +70,7 @@ public class UserList extends JPanel {
 				boolean isSelected, boolean cellHasFocus) {
 
 			setIcon(user.getImage());
-			setText(user.getName() + "  ");
+			setText(user.getName() + " ");
 
 			if (isSelected) {
 				setBackground(list.getSelectionBackground());
@@ -57,19 +82,4 @@ public class UserList extends JPanel {
 			return this;
 		}
 	}
-
-	public ArrayList<User> getReceivers() {
-		selectedList.clear();
-		for(int i = 0; i<listModel.size();i++) {
-			
-			if(list.isSelectedIndex(i)) {
-				selectedList.add(listModel.getElementAt(i));
-			}
-		}
-
-		return selectedList;
-	}
-
-	
-
 }

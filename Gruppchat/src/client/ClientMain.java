@@ -27,9 +27,6 @@ public class ClientMain {
 			public void run() {
 				try {
 
-					controller.setUser(me);
-
-					new UserInput(controller);
 					frame.setController(controller);
 					frame.addUserToList(user1);
 					frame.addUserToList(user2);

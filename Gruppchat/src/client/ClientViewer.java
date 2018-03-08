@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -32,17 +33,21 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private JFileChooser fileChooser = new JFileChooser();
 
 	private JLabel lblActiveUsers;
-	private JLabel lblNewLabel_1;
+	private JLabel lblContacts;
+	private JLabel lblImagePath;
 
 	private TextField tfWrite;
 
 	private JButton btnSendMessage;
 	private JButton btnUploadImage;
+	//TODO
 	private JButton btnAddToContacts;
+	private JButton editUser;
 
 	private UserList userList = new UserList();
 	
 	private MessageList messageList = new MessageList();
+	//TODO
 	private DefaultListModel<User> listContacts;
 
 	private ClientController controller;
@@ -83,9 +88,9 @@ public class ClientViewer extends JFrame implements ActionListener {
 		lblActiveUsers.setVerticalAlignment(SwingConstants.TOP);
 		pnlUsers.add(lblActiveUsers);
 
-		lblNewLabel_1 = new JLabel("Contacts");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		pnlUsers.add(lblNewLabel_1);
+		lblContacts = new JLabel("Contacts");
+		lblContacts.setHorizontalAlignment(SwingConstants.RIGHT);
+		pnlUsers.add(lblContacts);
 
 		pnlButtons = new JPanel();
 		pnlContent.add(pnlButtons, BorderLayout.SOUTH);
@@ -115,8 +120,8 @@ public class ClientViewer extends JFrame implements ActionListener {
 		return tfWrite.getText();
 	}
 
-	public UserList getuserList() {
-		return userList;
+	public ArrayList<User> getSelectedActiveUsers() {
+		return userList.getSelectedUsers();
 	}
 
 	public void uploadImage() {

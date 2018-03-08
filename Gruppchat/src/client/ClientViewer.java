@@ -1,9 +1,9 @@
 package client;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -16,7 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -85,7 +84,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 		pnlText = new JPanel();
 		pnlText.setLayout(new BorderLayout(0, 0));
 		scrollPanelText.setViewportView(messageList);
-		pnlText.add(tfWrite, BorderLayout.NORTH);
+		pnlText.add(tfWrite, BorderLayout.SOUTH);
 		pnlText.add(scrollPanelText, BorderLayout.CENTER);
 
 		pnlContent.add(pnlText, BorderLayout.CENTER);

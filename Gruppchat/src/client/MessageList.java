@@ -16,25 +16,29 @@ import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionListener;
 
+import chat.Message;
 import chat.TextMessage;
 import chat.User;
+import chat.UserConnectedMessage;
+import chat.UserDisconnectedMessage;
 
 public class MessageList extends JPanel {
-	private DefaultListModel<TextMessage> listModel = new DefaultListModel<>();
-	private JList<TextMessage> list = new JList<TextMessage>();
+	private DefaultListModel<Message> listModel = new DefaultListModel<Message>();
+	private JList<Message> list = new JList<Message>();
 
 	public MessageList() {
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		list = new JList<>(listModel);
+		list = new JList<Message>(listModel);
 		list.setCellRenderer(new MessageRenderer());
 		add(list, BorderLayout.WEST);
 	}
 
-	public void addMessage(TextMessage textMessage) {
-		listModel.addElement(textMessage);
-		list = new JList<>(listModel);
+	public void addMessage(Message message) {
+		listModel.addElement(message);
+		//list = new JList<>(listModel);
+		list.setModel(listModel);
 		repaint();
 	}
 
@@ -42,23 +46,38 @@ public class MessageList extends JPanel {
 		list.addListSelectionListener(listener);
 	}
 
-	private class MessageRenderer extends JLabel implements ListCellRenderer<TextMessage> {
+	private class MessageRenderer extends JLabel implements ListCellRenderer<Message> {
 		public MessageRenderer() {
 			setOpaque(false);
 		}
 
-		public Component getListCellRendererComponent(JList<? extends TextMessage> list, TextMessage message, int index,
+		public Component getListCellRendererComponent(JList<? extends Message> list, Message message, int index,
 				boolean isSelected, boolean cellHasFocus) {
-			String messageReceivers = "";
-			if (message.getReceivers().toString() != "[]") {
-				messageReceivers = " till " + message.getReceivers().toString().substring(1,
-						message.getReceivers().toString().length() - 1);
-			}
-			setText("[" + message.getDateReceived() + "] " + message.getSender().getName() + messageReceivers + ": "
-					+ message.getText());
-			setIcon(message.getImage());
+			if(message == null)
+				return new JLabel("wtf");
+			if(message instanceof TextMessage){
+				TextMessage mess = (TextMessage)message;
+				String messageReceivers = "";
+				if (mess.getReceivers().toString() != "[]") {
+					messageReceivers = " till " + mess.getReceivers().toString().substring(1,
+							mess.getReceivers().toString().length() - 1);
+				}
+				setText("[" + mess.getDateReceived() + "] " + mess.getSender().getName() + ": "
+						+ mess.getText());
+				setIcon(mess.getImage());
 
-			return this;
+				return this;
+			} else if(message instanceof UserConnectedMessage){
+				UserConnectedMessage mess = (UserConnectedMessage)message;
+				setText("[" + mess.getDateReceived() + "] " + mess.getNewUser().getName() + " has connected to the chat");
+				return this;
+			} else if(message instanceof UserDisconnectedMessage){
+				UserDisconnectedMessage mess = (UserDisconnectedMessage)message;
+				setText("[" + mess.getDateReceived() + "] " + mess.getDisconnectedUser().getName() + " has disconnected from the chat");
+				return this;
+			}
+			
+			return null;
 		}
 	}
 }

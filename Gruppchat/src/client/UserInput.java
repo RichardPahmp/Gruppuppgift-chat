@@ -76,8 +76,8 @@ public class UserInput extends JFrame implements ActionListener {
 			}
 
 		} else if (e.getSource() == doneButton) {
-			nameField.clear();
 			controller.setUser(nameField.getText(), image);
+			nameField.clear();
 			this.dispose();
 		}
 	}

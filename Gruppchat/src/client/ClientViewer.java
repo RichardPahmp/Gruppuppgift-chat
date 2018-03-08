@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import chat.Contacts;
+import chat.Message;
 import chat.TextMessage;
 import chat.User;
 
@@ -133,12 +134,15 @@ public class ClientViewer extends JFrame implements ActionListener {
 		
 	}
 
-	public void addUserToList(User user) {
+	public void addUser(User user) {
 		userList.addUser(user);
-
+	}
+	
+	public void setUserList(ArrayList<User> users){
+		userList.setUsers(users);
 	}
 
-	public void addMessageToList(TextMessage message) {
+	public void addMessage(Message message) {
 		messageList.addMessage(message);
 	}
 

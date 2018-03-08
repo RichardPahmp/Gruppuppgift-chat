@@ -52,7 +52,7 @@ public class TestClient{
 					}
 					if(obj instanceof TextMessage) {
 //						System.out.println(((TextMessage)obj).getText());
-						controller.receivedMessage(((TextMessage)obj));
+						//controller.receivedMessage(((TextMessage)obj));
 						
 					}
 				} catch (ClassNotFoundException e) {

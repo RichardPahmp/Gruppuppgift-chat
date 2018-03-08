@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JTextField;
 
 public class UserInput extends JFrame implements ActionListener {
 	private ClientController controller;
@@ -30,11 +31,19 @@ public class UserInput extends JFrame implements ActionListener {
 
 	private JButton fileButton = new JButton("Upload file");
 	private JButton doneButton = new JButton("Klar");
+	private final JTextField txtIp = new JTextField();
+	private final JTextField textField = new JTextField();
 
 	public UserInput(ClientController controller) {
+		textField.setToolTipText("port");
+		textField.setText("3280");
+		textField.setColumns(10);
+		txtIp.setToolTipText("ip-address");
+		txtIp.setText("127.0.0.1");
+		txtIp.setColumns(10);
 		this.controller = controller;
 
-		setSize(new Dimension(WIDTH, HEIGHT));
+		setSize(new Dimension(250, 201));
 		setResizable(false);
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screen = toolkit.getScreenSize();
@@ -54,11 +63,16 @@ public class UserInput extends JFrame implements ActionListener {
 		mainPanel.add(fileButton);
 		fileButton.addActionListener(this);
 
-		mainPanel.add(new JPanel());
+		JPanel panel = new JPanel();
+		mainPanel.add(panel);
+		
+		panel.add(txtIp);
+		
+		panel.add(textField);
 		mainPanel.add(doneButton);
 		doneButton.addActionListener(this);
 		
-		add(mainPanel);
+		getContentPane().add(mainPanel);
 		
 		mainPanel.getRootPane().setDefaultButton(doneButton);
 	}

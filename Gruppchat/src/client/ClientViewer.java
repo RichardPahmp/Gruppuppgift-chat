@@ -204,9 +204,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 	
 	public void readInContacts() {
 		contactList.clearList();
-		for(User u : contacts.getList()) {
-			contactList.addUser(u);
-		}
+		contactList.setUsers(new ArrayList<User>(contacts.getList()));
 	}
 
 

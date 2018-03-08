@@ -29,6 +29,9 @@ public class ClientController extends Thread {
 	private Socket socket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
+	
+	private int port;
+	private String ip;
 
 	public ClientController(ClientViewer viewer) {
 		newUser();
@@ -37,7 +40,7 @@ public class ClientController extends Thread {
 	
 	public void run(){
 		try{
-			socket = new Socket("127.0.0.1", 3280);
+			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 			oos.writeObject(user);
@@ -91,8 +94,10 @@ public class ClientController extends Thread {
 		userInput.setVisible(true);
 	}
 
-	public void setUser(String name, ImageIcon image) {
+	public void connect(String ip, String port, String name, ImageIcon image) {
 		user = new User(name, image);
+		this.ip = ip;
+		this.port = Integer.parseInt(port);
 		start();
 	}
 
@@ -100,6 +105,7 @@ public class ClientController extends Thread {
 		text = viewer.getText();
 		if (text.length() > 0) {
 			receivers = viewer.getSelectedActiveUsers();
+			receivers.add(user);
 			image = viewer.getImage();
 			textMessage = new TextMessage(user, receivers, text, image);
 			viewer.eraseImage();

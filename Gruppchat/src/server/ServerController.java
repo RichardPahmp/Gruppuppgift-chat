@@ -97,7 +97,6 @@ public class ServerController implements ClientListener, WindowListener {
 		if(receivers.size() <= 0){
 			sendToAll(message);
 		}
-		message.clearReceivers();
 		for (User user : receivers) {
 			if (userMap.containsKey(user)) {
 				// The selected user is online

@@ -37,7 +37,7 @@ public class Contacts {
 	
 	public void writeFile() {
 		try {
-			FileOutputStream fos = new FileOutputStream("contacts.ser");
+			FileOutputStream fos = new FileOutputStream("contacts.ser, true");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(list);
 			oos.close();

@@ -19,7 +19,7 @@ import chat.UserConnectedMessage;
 import chat.UserDisconnectedMessage;
 
 public class ClientController extends Thread {
-	private User user = new User("Anonym", new ImageIcon("images/Granny.png"));
+	private User user;
 	private ClientViewer viewer;
 	private TextMessage textMessage;
 	private ImageIcon image;
@@ -55,24 +55,26 @@ public class ClientController extends Thread {
 				
 				if(obj instanceof UserConnectedMessage){
 					UserConnectedMessage mess = (UserConnectedMessage)obj;
-					mess.setDateReceived();
+					mess.setTimeReceived();
 					viewer.addMessage(mess);
 					viewer.setUserList(mess.getConnectedUsers());
 				} else if(obj instanceof UserDisconnectedMessage){
 					UserDisconnectedMessage mess = (UserDisconnectedMessage)obj;
-					mess.setDateReceived();
+					mess.setTimeReceived();
 					viewer.addMessage(mess);
 					viewer.setUserList(mess.getConnectedUsers());
 				} else if(obj instanceof TextMessage){
 					TextMessage mess = (TextMessage)obj;
-					mess.setDateReceived();
+					mess.setTimeReceived();
 					viewer.addMessage(mess);
 				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
+				System.exit(0);
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				System.exit(0);
 				e.printStackTrace();
 			}
 		}
@@ -109,6 +111,11 @@ public class ClientController extends Thread {
 			viewer.eraseImage();
 			sendMessage(textMessage);
 		}
+	}
+	
+	//check if the user is the logged in user
+	public boolean compareUser(User u) {
+		return this.user.equals(u);
 	}
 
 }

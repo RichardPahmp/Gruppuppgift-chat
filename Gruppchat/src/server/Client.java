@@ -48,13 +48,9 @@ public class Client extends Thread{
 					listener.messageReceived((Message)obj);
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				listener.userDisconnected(user);
 				break;
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				listener.userDisconnected(user);
 				break;
 			}
@@ -63,7 +59,7 @@ public class Client extends Thread{
 	
 	public void sendMessage(Message message){
 		try {
-			message.setDateSent();
+			message.setTimeSent();
 			oos.writeObject(message);
 			oos.flush();
 		} catch (IOException e) {

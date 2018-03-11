@@ -12,17 +12,9 @@ public class ClientMain {
 
 	
 	public static void main(String[] args) {
-//Test--------------------------------------
-		ImageIcon icon = new ImageIcon("images/SmallMadeline.png");
-		User user1 = new User("Birger", icon);
-		User user2 = new User("Stefan", icon);
-		User me = new User("Erik",icon);
-//------------------------------------------
 		 
 		ClientViewer frame = new ClientViewer();
 		ClientController controller = new ClientController(frame);
-//		TestClient client = new TestClient(controller);
-		 
 	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

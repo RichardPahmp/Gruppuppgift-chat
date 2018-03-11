@@ -55,12 +55,15 @@ public class UserList extends JPanel {
 
 	public ArrayList<User> getSelectedUsers() {
 		ArrayList<User> selectedList = new ArrayList<User>();
-		
-		for (int i = 0; i < listModel.size(); i++) {
-			if (list.isSelectedIndex(i)) {
-				selectedList.add(activeUsers.get(i));
-			}
+		int[] indexes = list.getSelectedIndices();
+		for(int n : indexes) {
+			selectedList.add(list.getModel().getElementAt(n));
 		}
+//		for (int i = 0; i < listModel.size(); i++) {
+//			if (list.isSelectedIndex(i)) {
+//				selectedList.add(activeUsers.get(i));
+//			}
+//		}
 		return selectedList;
 	}
 

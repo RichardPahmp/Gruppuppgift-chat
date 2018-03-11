@@ -1,5 +1,7 @@
 package server;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
@@ -7,7 +9,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import chat.TextMessage;
 import chat.Message;
@@ -16,13 +27,15 @@ import chat.User;
 import chat.UserConnectedMessage;
 import chat.UserDisconnectedMessage;
 
-public class ServerController implements ClientListener, WindowListener {
+public class ServerController implements ClientListener, WindowListener, ActionListener {
 	private SynchronizedHashMap<User, Client> userMap;
-	private SynchronizedHashMap<User, TextMessage> savedMessagesMap;
+	private SynchronizedHashMap<User, ArrayList<TextMessage>> savedMessagesMap;
 
 	private ServerSocket serverSocket;
-	
 	private ServerViewer viewer;
+	
+	private ServerLog serverLog;
+	private Timer saveLogTimer;
 
 	// testmain
 	public static void main(String[] args) {
@@ -31,21 +44,25 @@ public class ServerController implements ClientListener, WindowListener {
 
 	public ServerController(int port) {
 		userMap = new SynchronizedHashMap<User, Client>();
-		savedMessagesMap = new SynchronizedHashMap<User, TextMessage>();
-		User user = new User("asd", null);
-		User user2 = new User("qwe", null);
-		ArrayList<User> list = new ArrayList<User>();
-		list.add(user);
-		TextMessage mess = new TextMessage(user2, list, "wow", null);
-		savedMessagesMap.put(user, mess);
-		savedMessagesMap.put(user, mess);
-		viewer = new ServerViewer();
+		savedMessagesMap = new SynchronizedHashMap<User, ArrayList<TextMessage>>();
+//		User user = new User("asd", null);
+//		User user2 = new User("qwe", null);
+//		ArrayList<User> list = new ArrayList<User>();
+//		list.add(user);
+//		TextMessage mess = new TextMessage(user2, list, "wow", null);
+//		savedMessagesMap.put(user, mess);
+//		savedMessagesMap.put(user, mess);
+		serverLog = new ServerLog();
+		saveLogTimer = new Timer();
+		saveLogTimer.schedule(new saveLogTask(), 30000, 30000);
+		
+		viewer = new ServerViewer(this);
 		viewer.addWindowListener(this);
+		viewer.setText(serverLog.getFormattedList());
 		try {
 			serverSocket = new ServerSocket(port);
 			start();
 		} catch (IOException e) {
-			viewer.appendLine("Server failed to start.");
 			e.printStackTrace();
 		}
 	}
@@ -54,7 +71,6 @@ public class ServerController implements ClientListener, WindowListener {
 
 
 	public void start() {
-		viewer.appendLine("Server has started.");
 		try {
 			while (true) {
 				Socket socket = serverSocket.accept();
@@ -73,10 +89,9 @@ public class ServerController implements ClientListener, WindowListener {
 	public void messageReceived(Message m) {
 		if (m instanceof TextMessage) {
 			TextMessage cm = (TextMessage) m;
-			cm.setDateReceived();
+			cm.setTimeReceived();
 			sendToList(cm);
-			viewer.appendLine("Text message received from " + cm.getSender().getName() + ".");
-			viewer.appendLine(cm.getDateReceived() + " " + cm.getText());
+			log(cm.getSender().getName() + ": " + cm.getText());
 		}
 	}
 
@@ -114,7 +129,7 @@ public class ServerController implements ClientListener, WindowListener {
 			} else {
 				// The selected user is offline
 				// Save the message to send it later
-				savedMessagesMap.put(user, message);
+				savedMessagesMap.get(user).add(message);
 			}
 		}
 	}
@@ -145,13 +160,18 @@ public class ServerController implements ClientListener, WindowListener {
 		userMap.put(user, client);
 		UserConnectedMessage message = new UserConnectedMessage(new ArrayList<User>(userMap.keySet()), user);
 		sendToAll(message);
+		if(!savedMessagesMap.containsKey(user)) {
+			savedMessagesMap.put(user, new ArrayList<TextMessage>());
+		}
 		for (User u : savedMessagesMap.keySet()) {
 			if (u.equals(user)) {
-				userMap.get(user).sendMessage(savedMessagesMap.get(user));
-				savedMessagesMap.remove(user);
+				for(TextMessage mess : savedMessagesMap.get(user)) {
+					userMap.get(user).sendMessage(mess);
+				}
+				savedMessagesMap.get(user).clear();
 			}
 		}
-		viewer.appendLine("New Client accepted: " + user.getName());
+		log(user.getName() + " has connected.");
 	}
 
 	@Override
@@ -159,6 +179,36 @@ public class ServerController implements ClientListener, WindowListener {
 		userMap.remove(user);
 		UserDisconnectedMessage message = new UserDisconnectedMessage(new ArrayList<User>(userMap.keySet()), user);
 		sendToAll(message);
+		log(user.getName() + " has disconnected.");
+	}
+	
+	private void log(String text) {
+		serverLog.add(text);
+		updateViewer();
+	}
+	
+	private void updateViewer() {
+		if(viewer.getFromDate().length() > 0 && viewer.getToDate().length() > 0) {
+			SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			try {
+				Date from = parser.parse("2018-" + viewer.getFromDate());
+				Date to = parser.parse("2018-" + viewer.getToDate());
+				viewer.setText(serverLog.getFormattedList(from, to));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+		} else {
+			viewer.setText(serverLog.getFormattedList());
+		}
+	}
+	
+	private class saveLogTask extends TimerTask {
+		public void run() {
+			serverLog.writeToFile();
+		}
 	}
 
 	@Override
@@ -169,14 +219,13 @@ public class ServerController implements ClientListener, WindowListener {
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
-		viewer.appendLine("Exiting.");
+		serverLog.writeToFile();
+		viewer.dispose();
 		System.exit(0);
 	}
 
@@ -202,6 +251,11 @@ public class ServerController implements ClientListener, WindowListener {
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		updateViewer();
 	}
 
 }

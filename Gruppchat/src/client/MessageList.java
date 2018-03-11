@@ -3,6 +3,7 @@ package client;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -67,7 +68,7 @@ public class MessageList extends JPanel {
 					messageReceivers = " till " + mess.getReceivers().toString().substring(1,
 							mess.getReceivers().toString().length() - 1);
 				}
-				label.setText("[" + mess.getDateReceived() + "] " + mess.getSender().getName() + ": "
+				label.setText("[" + mess.getTimeSent().format(DateTimeFormatter.ofPattern("HH:mm")) + "] " + mess.getSender().getName() + ": "
 						+ mess.getText());
 				this.add(label, BorderLayout.WEST);
 				if(mess.getImage() != null){
@@ -77,11 +78,11 @@ public class MessageList extends JPanel {
 				return label;
 			} else if(message instanceof UserConnectedMessage){
 				UserConnectedMessage mess = (UserConnectedMessage)message;
-				label.setText("[" + mess.getDateReceived() + "] " + mess.getNewUser().getName() + " has connected to the chat");
+				label.setText("[" + mess.getTimeSent().format(DateTimeFormatter.ofPattern("HH:mm")) + "] " + mess.getNewUser().getName() + " has connected to the chat");
 				return label;
 			} else if(message instanceof UserDisconnectedMessage){
 				UserDisconnectedMessage mess = (UserDisconnectedMessage)message;
-				label.setText("[" + mess.getDateReceived() + "] " + mess.getDisconnectedUser().getName() + " has disconnected from the chat");
+				label.setText("[" + mess.getTimeSent().format(DateTimeFormatter.ofPattern("HH:mm")) + "] " + mess.getDisconnectedUser().getName() + " has disconnected from the chat");
 				return label;
 			}
 			

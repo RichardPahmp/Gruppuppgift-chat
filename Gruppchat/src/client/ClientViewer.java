@@ -199,10 +199,16 @@ public class ClientViewer extends JFrame implements ActionListener {
 			uploadImage();
 		}
 		if (e.getSource() instanceof JMenuItem) {
-			contacts.addContact(userList.getSelectedUsers());
+			ArrayList<User> selectedUsers = userList.getSelectedUsers();
+			User temp = null;
+			for(User u : selectedUsers) {
+				if(controller.compareUser(u)) {
+					temp = u;
+				}
+			}
+			selectedUsers.remove(temp);
+			contacts.addContact(selectedUsers);
 			readInContacts();
-
-			
 		}
 	}
 

@@ -50,19 +50,15 @@ public class ClientViewer extends JFrame implements ActionListener {
 
 	private JLabel lblActiveUsers;
 	private JLabel lblContacts;
-	private JLabel lblImagePath;
 
 	private TextField tfWrite;
 
 	private JButton btnSendMessage;
 	private JButton btnUploadImage;
-	// TODO
-
-	private JButton editUser;
 
 	private UserList userList = new UserList(new popupListener());
 	private MessageList messageList = new MessageList();
-	// TODO
+
 	private UserList contactList = new UserList(null);
 
 	private ClientController controller;

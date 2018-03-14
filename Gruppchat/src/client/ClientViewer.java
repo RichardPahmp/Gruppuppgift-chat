@@ -26,7 +26,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import chat.Contacts;
 import chat.Message;
-import chat.TextMessage;
 import chat.User;
 
 /**

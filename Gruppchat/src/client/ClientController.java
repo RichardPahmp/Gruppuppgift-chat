@@ -5,14 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
-import chat.Contacts;
-import chat.Message;
 import chat.TextMessage;
 import chat.User;
 import chat.UserConnectedMessage;

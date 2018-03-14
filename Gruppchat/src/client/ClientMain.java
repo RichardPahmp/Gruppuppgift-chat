@@ -2,19 +2,16 @@ package client;
 
 import java.awt.EventQueue;
 
-
-import javax.swing.ImageIcon;
-
-
-import chat.User;
-
+/**
+ * Main class for the Client.
+ */
 public class ClientMain {
 
 	public static void main(String[] args) {
-		 
+
 		ClientViewer frame = new ClientViewer();
 		ClientController controller = new ClientController(frame);
-	
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -29,6 +26,3 @@ public class ClientMain {
 		});
 	}
 }
-
-		
-

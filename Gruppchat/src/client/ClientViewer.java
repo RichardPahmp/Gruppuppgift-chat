@@ -175,8 +175,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * @return 
-	 * Returns the text that is written in the textfield.
+	 * @return Returns the text that is written in the textfield.
 	 * @author Erik Lundov
 	 */
 	public String getText() {
@@ -184,8 +183,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * @return 
-	 * Returns a list of the users that has been selected.
+	 * @return Returns a list of the users that has been selected.
 	 * @author Erik Lundov
 	 */
 	public ArrayList<User> getSelectedActiveUsers() {
@@ -273,12 +271,14 @@ public class ClientViewer extends JFrame implements ActionListener {
 			readInContacts();
 		}
 	}
-/**
- * If a user right-clicks on a active user, popup-menu will show 
- * the option to add this user to your list of contacts.
- * @author Erik Lundow
- 
- */
+
+	/**
+	 * If a user right-clicks on a active user, popup-menu will show the option to
+	 * add this user to your list of contacts.
+	 * 
+	 * @author Erik Lundow
+	 * 
+	 */
 	private class popupListener extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
 			if (e.getButton() == MouseEvent.BUTTON3) {

@@ -10,7 +10,6 @@ import chat.User;
 
 public class ClientMain {
 
-	
 	public static void main(String[] args) {
 		 
 		ClientViewer frame = new ClientViewer();

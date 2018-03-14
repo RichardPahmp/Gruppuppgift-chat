@@ -18,6 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JTextField;
 
+/**
+ * Extends JFrame. Class for user input regarding connection settings and user
+ * settings.
+ */
 public class UserInput extends JFrame implements ActionListener {
 	private ClientController controller;
 	private final int WIDTH = 250, HEIGHT = 180;
@@ -34,6 +38,12 @@ public class UserInput extends JFrame implements ActionListener {
 	private final JTextField tfIp = new JTextField();
 	private final JTextField tfPort = new JTextField();
 
+	/**
+	 * This class needs to be connected to a controller to forward the entered
+	 * values. Initiates and shows the whole JFrame.
+	 * 
+	 * @param controller
+	 */
 	public UserInput(ClientController controller) {
 		tfPort.setToolTipText("port");
 		tfPort.setText("3280");
@@ -54,7 +64,6 @@ public class UserInput extends JFrame implements ActionListener {
 
 		mainPanel.add(new JLabel("Namn: "));
 		mainPanel.add(nameField);
-		//nameField.requestFocus();
 
 		mainPanel.add(new JLabel("Bild: "));
 		imageField.setFocusable(false);
@@ -65,18 +74,22 @@ public class UserInput extends JFrame implements ActionListener {
 
 		JPanel panel = new JPanel();
 		mainPanel.add(panel);
-		
+
 		panel.add(tfIp);
-		
+
 		panel.add(tfPort);
 		mainPanel.add(doneButton);
 		doneButton.addActionListener(this);
-		
+
 		getContentPane().add(mainPanel);
-		
+
 		mainPanel.getRootPane().setDefaultButton(doneButton);
 	}
 
+	/**
+	 * Action handling for the <code>JImageChooser</code> and the
+	 * <code>JButton</code>.
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == fileButton) {
 			if (imageChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
@@ -91,7 +104,7 @@ public class UserInput extends JFrame implements ActionListener {
 			}
 
 		} else if (e.getSource() == doneButton) {
-			if(nameField.getText().length() <= 0){
+			if (nameField.getText().length() <= 0) {
 				JOptionPane.showMessageDialog(null, "Enter a name!");
 				return;
 			}

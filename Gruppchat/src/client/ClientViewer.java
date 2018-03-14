@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -45,7 +46,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private JScrollPane scrollPanelText = new JScrollPane();
 	private JScrollPane scrollPanelUsers = new JScrollPane();
 	private JScrollPane scrollPanelContacts = new JScrollPane();
-
+	private JScrollBar scrollBar = scrollPanelText.getVerticalScrollBar();
 	private JFileChooser fileChooser = new JFileChooser();
 
 	private JLabel lblActiveUsers;
@@ -169,6 +170,8 @@ public class ClientViewer extends JFrame implements ActionListener {
 	 */
 	public void addMessage(Message message) {
 		messageList.addMessage(message);
+		scrollBar.setValue(scrollBar.getMaximum());
+		repaint();
 	}
 
 	/**

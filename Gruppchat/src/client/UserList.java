@@ -2,20 +2,14 @@ package client;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.LinkedList;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionListener;
-
 import chat.User;
 
 /**

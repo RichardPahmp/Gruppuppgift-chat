@@ -24,6 +24,12 @@ import chat.User;
 import chat.UserConnectedMessage;
 import chat.UserDisconnectedMessage;
 
+/**
+ * Extends JPanel. A JList customized for the <code>Message</code> class to render
+ * both picture and text in the same list cell.
+ * @author Erik Lundov
+ *
+ */
 public class MessageList extends JPanel {
 	private DefaultListModel<Message> listModel = new DefaultListModel<Message>();
 	private JList<Message> list;
@@ -37,6 +43,11 @@ public class MessageList extends JPanel {
 		add(list, BorderLayout.WEST);
 	}
 
+	/**
+	 * Adds an incoming message to the <code>JList</code>
+	 * @Param message
+	 * A received <code>Message</code> 
+	 */
 	public synchronized void addMessage(Message message) {
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run(){
@@ -47,10 +58,18 @@ public class MessageList extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Adds a <code>ListSelectionListener</code>.
+	 * @param listener
+	 */
 	public void addListener(ListSelectionListener listener) {
 		list.addListSelectionListener(listener);
 	}
 
+	
+	/**
+	 * extends JPanel. Custom <code>ListCellRenderer</code> for the <code>Message</code> class.
+	 */
 	private class MessageRenderer extends JPanel implements ListCellRenderer<Message> {
 		private JLabel label;
 		public MessageRenderer() {

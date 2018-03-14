@@ -69,11 +69,9 @@ public class ClientController extends Thread {
 					viewer.addMessage(mess);
 				}
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				System.exit(0);
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				System.exit(0);
 				e.printStackTrace();
 			}
@@ -85,7 +83,6 @@ public class ClientController extends Thread {
 			oos.writeObject(message);
 			oos.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

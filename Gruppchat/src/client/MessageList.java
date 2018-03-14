@@ -78,10 +78,12 @@ public class MessageList extends JPanel {
 				return label;
 			} else if(message instanceof UserConnectedMessage){
 				UserConnectedMessage mess = (UserConnectedMessage)message;
+				label.setForeground(new Color(93, 128, 92));
 				label.setText("[" + mess.getTimeSent().format(DateTimeFormatter.ofPattern("HH:mm")) + "] " + mess.getNewUser().getName() + " has connected to the chat");
 				return label;
 			} else if(message instanceof UserDisconnectedMessage){
 				UserDisconnectedMessage mess = (UserDisconnectedMessage)message;
+				label.setForeground(new Color(167, 69, 69));
 				label.setText("[" + mess.getTimeSent().format(DateTimeFormatter.ofPattern("HH:mm")) + "] " + mess.getDisconnectedUser().getName() + " has disconnected from the chat");
 				return label;
 			}

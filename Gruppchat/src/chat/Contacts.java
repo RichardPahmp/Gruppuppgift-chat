@@ -27,8 +27,6 @@ public class Contacts {
 		}
 	}
 	
-	
-	
 	public void addContact(ArrayList<User> users){
 		for(User user : users){
 			addContact(user);

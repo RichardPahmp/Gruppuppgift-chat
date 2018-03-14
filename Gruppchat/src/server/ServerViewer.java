@@ -57,6 +57,10 @@ public class ServerViewer extends JFrame {
 		textLogg.append(message + "\n");
 	}
 	
+	/**
+	 * Sets the text in the view.
+	 * @param list
+	 */
 	public void setText(ArrayList<String> list) {
 		String temp = "";
 		for(String str : list) {
@@ -65,10 +69,18 @@ public class ServerViewer extends JFrame {
 		textLogg.setText(temp);
 	}
 	
+	/**
+	 * returns the text in the fromDate field.
+	 * @return
+	 */
 	public String getFromDate() {
 		return tfFromDate.getText();
 	}
 
+	/**
+	 * return the text in the toDate field.
+	 * @return
+	 */
 	public String getToDate() {
 		return tfToDate.getText();
 	}

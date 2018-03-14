@@ -9,6 +9,11 @@ import java.net.SocketException;
 import chat.Message;
 import chat.User;
 
+/** 
+ * 
+ * @author Richard
+ * Client represents the serverside connection to a client.
+ */
 public class Client extends Thread{
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
@@ -21,10 +26,19 @@ public class Client extends Thread{
 		this.oos = oos;
 	}
 	
+	
+	/**
+	 * Add a ClientListener to listen for new Messages.
+	 * @param listener
+	 */
 	public void setClientListener(ClientListener listener) {
 		this.listener = listener;
 	}
 	
+	/**
+	 * Starts the listen thread.
+	 * The thread runs and listens for Message objects and notifies any listeners.
+	 */
 	public void run(){
 		Object obj = null;
 		try {
@@ -57,6 +71,10 @@ public class Client extends Thread{
 		}
 	}
 	
+	/**
+	 * Writes a message to the outputstream.
+	 * @param message The message to send
+	 */
 	public void sendMessage(Message message){
 		try {
 			message.setTimeSent();

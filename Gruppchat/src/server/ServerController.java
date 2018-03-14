@@ -42,6 +42,10 @@ public class ServerController implements ClientListener, WindowListener, ActionL
 		ServerController cont = new ServerController(3280);
 	}
 
+	/**
+	 * 
+	 * @param port The port for the server to listen on.
+	 */
 	public ServerController(int port) {
 		userMap = new SynchronizedHashMap<User, Client>();
 		savedMessagesMap = new SynchronizedHashMap<User, ArrayList<TextMessage>>();
@@ -69,7 +73,9 @@ public class ServerController implements ClientListener, WindowListener, ActionL
 
 
 
-
+	/**
+	 * Listens for new connections and create handlers for them.
+	 */
 	public void start() {
 		try {
 			while (true) {
@@ -134,6 +140,11 @@ public class ServerController implements ClientListener, WindowListener, ActionL
 		}
 	}
 
+	/**
+	 * 
+	 * @author Richard
+	 *
+	 */
 	private class ConnectionHandler extends Thread {
 		private Socket socket;
 
@@ -141,6 +152,9 @@ public class ServerController implements ClientListener, WindowListener, ActionL
 			this.socket = socket;
 		}
 
+		/**
+		 * Creates a new Client object and starts it's thread;
+		 */
 		public void run() {
 			try {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
@@ -155,6 +169,9 @@ public class ServerController implements ClientListener, WindowListener, ActionL
 		}
 	}
 
+	/**
+	 * Callback from a Client.
+	 */
 	@Override
 	public void userConnected(User user, Client client) {
 		userMap.put(user, client);
@@ -174,6 +191,9 @@ public class ServerController implements ClientListener, WindowListener, ActionL
 		log(user.getName() + " has connected.");
 	}
 
+	/**
+	 * callback from a Client.
+	 */
 	@Override
 	public void userDisconnected(User user) {
 		userMap.remove(user);
@@ -182,11 +202,19 @@ public class ServerController implements ClientListener, WindowListener, ActionL
 		log(user.getName() + " has disconnected.");
 	}
 	
+	/**
+	 * Logs text to the serverlog and updates the viewer.
+	 * @param text
+	 * 		The text to log
+	 */
 	private void log(String text) {
 		serverLog.add(text);
 		updateViewer();
 	}
 	
+	/**
+	 * Retrieves the dates to sort by from the viewer and updates the view.
+	 */
 	private void updateViewer() {
 		if(viewer.getFromDate().length() > 0 && viewer.getToDate().length() > 0) {
 			SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -205,6 +233,11 @@ public class ServerController implements ClientListener, WindowListener, ActionL
 		}
 	}
 	
+	/**
+	 * A TimerTask that saves the serverlog to disk.
+	 * @author Richard
+	 *
+	 */
 	private class saveLogTask extends TimerTask {
 		public void run() {
 			serverLog.writeToFile();

@@ -30,6 +30,9 @@ public class ServerLog {
 		list.add(pair);
 	}
 	
+	/**
+	 * Saves the log to disk.
+	 */
 	public void writeToFile() {
 		try {
 			FileOutputStream fos = new FileOutputStream("serverlog.ser", false);
@@ -44,6 +47,9 @@ public class ServerLog {
 		} 
 	}
 	
+	/**
+	 * loads the log from disk.
+	 */
 	private void loadFromFile() {
 		try {
 			FileInputStream fis = new FileInputStream("serverlog.ser");
@@ -62,6 +68,10 @@ public class ServerLog {
 		}
 	}
 	
+	/**
+	 * Returns an arraylist of strings that are formatted with the date in brackets.
+	 * @return
+	 */
 	public ArrayList<String> getFormattedList() {
 		ArrayList<String> temp = new ArrayList<String>();
 		SimpleDateFormat parser = new SimpleDateFormat("MM-dd HH:mm:ss");
@@ -71,6 +81,13 @@ public class ServerLog {
 		return temp;
 	}
 	
+	/**
+	 * Returns an arraylist of strings that are formatted with the date in brackets.
+	 * Only returns messages between the dates in to and from.
+	 * @param from
+	 * @param to
+	 * @return
+	 */
 	public ArrayList<String> getFormattedList(Date from, Date to){
 		SimpleDateFormat parser = new SimpleDateFormat("MM-dd HH:mm:ss");
 		ArrayList<String> temp = new ArrayList<String>();

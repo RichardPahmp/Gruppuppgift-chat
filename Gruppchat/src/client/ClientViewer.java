@@ -28,6 +28,14 @@ import chat.Message;
 import chat.TextMessage;
 import chat.User;
 
+/**
+ * <code> ClientViewer</code> is a UI capable of sending and receiving messages
+ * containing ImageIcons and Strings. It also shows other users that or
+ * connected to the same server. These users can be saved to a contactlist.
+ * 
+ * @author Erik Lundov
+ *
+ */
 public class ClientViewer extends JFrame implements ActionListener {
 
 	private JPanel pnlContent;
@@ -62,30 +70,31 @@ public class ClientViewer extends JFrame implements ActionListener {
 	private Contacts contacts;
 
 	/**
-	 * Create the frame.
+	 * <code>ClientViewer</code> is the constructor for the class. It builds the
+	 * frame and load in contacts.
 	 */
 	public ClientViewer() {
-		//Set the frame
+		// Set the frame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 300);
 		pnlContent = new JPanel();
 		pnlContent.setBorder(new EmptyBorder(5, 5, 5, 5));
 		pnlContent.setLayout(new BorderLayout(0, 0));
 		setContentPane(pnlContent);
-		
-		//Add the panel that contains active users
+
+		// Add the panel that contains active users
 		scrollPanelUsers.setViewportView(userList);
-		scrollPanelUsers.setPreferredSize(new Dimension(100,300));
+		scrollPanelUsers.setPreferredSize(new Dimension(100, 300));
 		pnlContent.add(scrollPanelUsers, BorderLayout.WEST);
-		
-		//Add the panel that contains contacts
+
+		// Add the panel that contains contacts
 		scrollPanelContacts.setViewportView(contactList);
-		scrollPanelContacts.setPreferredSize(new Dimension(100,300));
-		pnlContent.add(scrollPanelContacts,BorderLayout.EAST);
+		scrollPanelContacts.setPreferredSize(new Dimension(100, 300));
+		pnlContent.add(scrollPanelContacts, BorderLayout.EAST);
 		contacts = new Contacts();
 		readInContacts();
-		
-		//Add the textpanels
+
+		// Add the textpanels
 		tfWrite = new TextField("Skriv ditt meddelande här...");
 		tfWrite.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -97,8 +106,8 @@ public class ClientViewer extends JFrame implements ActionListener {
 
 		pnlContent.add(pnlText, BorderLayout.CENTER);
 		tfWrite.setColumns(10);
-		
-	//Labels for userlist and contactlist
+
+		// Labels for userlist and contactlist
 		pnlUsers = new JPanel();
 		pnlContent.add(pnlUsers, BorderLayout.NORTH);
 		pnlUsers.setLayout(new GridLayout(0, 2, 0, 0));
@@ -110,47 +119,83 @@ public class ClientViewer extends JFrame implements ActionListener {
 		lblContacts.setHorizontalAlignment(SwingConstants.RIGHT);
 		pnlUsers.add(lblContacts);
 
-		//Add panel containing buttons
+		// Add panel containing buttons
 		pnlButtons = new JPanel();
 		pnlContent.add(pnlButtons, BorderLayout.SOUTH);
 		btnUploadImage = new JButton("Upload File");
 		pnlButtons.add(btnUploadImage);
 		btnSendMessage = new JButton("Send Message");
 		pnlButtons.add(btnSendMessage);
-		
-		addListeners();  
+
+		addListeners();
 		pnlButtons.getRootPane().setDefaultButton(btnSendMessage);
 
-		//Add popup menu
+		// Add popup menu
 		popupMenu = new JPopupMenu();
 		JMenuItem menuItem = new JMenuItem("Add Contact");
 		menuItem.addActionListener(this);
 		popupMenu.add(menuItem);
 
-		
 	}
 
+	/**
+	 * Adds a User to the list of active users.
+	 * 
+	 * @param user
+	 *            An active User
+	 * @author Erik Lundov
+	 */
 	public void addUser(User user) {
 		userList.addUser(user);
 	}
-	
-	public void setUserList(ArrayList<User> users){
+
+	/**
+	 * Gets all active users and puts them in the JList to show on the frame.
+	 * 
+	 * @param users
+	 *            Arraylist containing active users
+	 * @author Erik Lundov
+	 */
+	public void setUserList(ArrayList<User> users) {
 		userList.setUsers(users);
 	}
 
+	/**
+	 * Adds a received message to the messageList.
+	 * 
+	 * @param message
+	 *            A received Message object
+	 * @author Erik Lundov
+	 */
 	public void addMessage(Message message) {
 		messageList.addMessage(message);
 	}
 
+	/**
+	 * @return 
+	 * Returns the text that is written in the textfield.
+	 * @author Erik Lundov
+	 */
 	public String getText() {
 		return tfWrite.getText();
 	}
 
+	/**
+	 * @return 
+	 * Returns a list of the users that has been selected.
+	 * @author Erik Lundov
+	 */
 	public ArrayList<User> getSelectedActiveUsers() {
-		
+
 		return userList.getSelectedUsers();
 	}
 
+	/**
+	 * Opens a <code>FileChooser</code> and lets the user upload an image. The image
+	 * is then rescaled to 100x100 pixels.
+	 * 
+	 * @author Erik Lundov
+	 */
 	public void uploadImage() {
 		if (fileChooser.showOpenDialog(btnUploadImage) == JFileChooser.APPROVE_OPTION)
 			;
@@ -165,10 +210,19 @@ public class ClientViewer extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * @return Returns the image that has been uploaded.
+	 * @author Erik Lundov
+	 */
 	public ImageIcon getImage() {
 		return image;
 	}
 
+	/**
+	 * Sets the local variable <code>image</code> to null
+	 * 
+	 * @author Erik Lundov
+	 */
 	public void eraseImage() {
 		image = null;
 	}
@@ -178,11 +232,20 @@ public class ClientViewer extends JFrame implements ActionListener {
 		btnUploadImage.addActionListener(this);
 	}
 
+	public void setController(ClientController controller) {
+		this.controller = controller;
+	}
+
+	public void readInContacts() {
+		contactList.clearList();
+		contactList.setUsers(new ArrayList<User>(contacts.getList()));
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnSendMessage) {
 			ArrayList<User> receivers = getSelectedActiveUsers();
-			for(User user : contacts.getList()){
-				if(receivers.contains(user)){
+			for (User user : contacts.getList()) {
+				if (receivers.contains(user)) {
 					continue;
 				}
 				receivers.add(user);
@@ -197,8 +260,8 @@ public class ClientViewer extends JFrame implements ActionListener {
 		if (e.getSource() instanceof JMenuItem) {
 			ArrayList<User> selectedUsers = userList.getSelectedUsers();
 			User temp = null;
-			for(User u : selectedUsers) {
-				if(controller.compareUser(u)) {
+			for (User u : selectedUsers) {
+				if (controller.compareUser(u)) {
 					temp = u;
 				}
 			}
@@ -207,18 +270,12 @@ public class ClientViewer extends JFrame implements ActionListener {
 			readInContacts();
 		}
 	}
-
-	public void setController(ClientController controller) {
-		this.controller = controller;
-	}
-	
-	public void readInContacts() {
-		contactList.clearList();
-		contactList.setUsers(new ArrayList<User>(contacts.getList()));
-	}
-
-
-
+/**
+ * If a user right-clicks on a active user, popup-menu will show 
+ * the option to add this user to your list of contacts.
+ * @author Erik Lundow
+ 
+ */
 	private class popupListener extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
 			if (e.getButton() == MouseEvent.BUTTON3) {

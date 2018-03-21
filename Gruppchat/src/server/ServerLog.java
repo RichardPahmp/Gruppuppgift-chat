@@ -35,7 +35,7 @@ public class ServerLog {
 	 */
 	public void writeToFile() {
 		try {
-			FileOutputStream fos = new FileOutputStream("serverlog.ser", false);
+			FileOutputStream fos = new FileOutputStream("files/serverlog.ser", false);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(list);
 			oos.close();
@@ -52,7 +52,7 @@ public class ServerLog {
 	 */
 	private void loadFromFile() {
 		try {
-			FileInputStream fis = new FileInputStream("serverlog.ser");
+			FileInputStream fis = new FileInputStream("files/serverlog.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);			
 			this.list = (ArrayList<LogPair>)ois.readObject();
 			ois.close();

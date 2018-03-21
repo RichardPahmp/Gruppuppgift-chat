@@ -5,9 +5,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 
+import chat.Contacts;
 import chat.TextMessage;
 import chat.User;
 import chat.UserConnectedMessage;
@@ -29,6 +31,8 @@ public class ClientController extends Thread {
 
 	private int port;
 	private String ip;
+	
+	private Contacts contacts;
 
 	/**
 	 * Constructor for the Client, requires a ClientViewer for intitation. Requests
@@ -39,6 +43,7 @@ public class ClientController extends Thread {
 	 *            ClientViewer
 	 */
 	public ClientController(ClientViewer viewer) {
+		contacts = new Contacts();
 		newUser();
 		this.viewer = viewer;
 	}
@@ -161,4 +166,17 @@ public class ClientController extends Thread {
 		return this.user.equals(u);
 	}
 
+	public void addContacts(ArrayList<User> users) {
+		contacts.addContact(users);
+	}
+	
+	public void addContacts(LinkedList<User> users) {
+		for(User user : users) {
+			contacts.addContact(user);
+		}
+	}
+	
+	public LinkedList<User> getContacts() {
+		return contacts.getList();
+	}
 }

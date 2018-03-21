@@ -14,7 +14,7 @@ public class Contacts {
 	private LinkedList<User> list = new LinkedList<User>();
 
 	public Contacts() {
-		
+		readFile();
 	}
 	
 	public LinkedList<User> getList() {
@@ -23,8 +23,9 @@ public class Contacts {
 	
 	public void addContact(User user) {
 		if(!list.contains(user)) {
-		list.add(user);
+			list.add(user);
 		}
+		writeFile();
 	}
 	
 	public void addContact(ArrayList<User> users){
@@ -35,7 +36,7 @@ public class Contacts {
 	
 	public void writeFile() {
 		try {
-			FileOutputStream fos = new FileOutputStream("contacts.ser, true");
+			FileOutputStream fos = new FileOutputStream("files/contacts.ser", true);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(list);
 			oos.close();
@@ -49,12 +50,12 @@ public class Contacts {
 	
 	public LinkedList<User> readFile() {
 		try {
-			FileInputStream fis = new FileInputStream("contacts.ser");
+			FileInputStream fis = new FileInputStream("files/contacts.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);			
 			LinkedList<User> readList = (LinkedList<User>)ois.readObject();
 			ois.close();
 			
-			return readList;
+			this.list = readList;
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

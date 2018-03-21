@@ -67,8 +67,6 @@ public class ClientViewer extends JFrame implements ActionListener {
 
 	private JPopupMenu popupMenu;
 
-	private Contacts contacts;
-
 	/**
 	 * <code>ClientViewer</code> is the constructor for the class. It builds the
 	 * frame and load in contacts.
@@ -91,8 +89,6 @@ public class ClientViewer extends JFrame implements ActionListener {
 		scrollPanelContacts.setViewportView(contactList);
 		scrollPanelContacts.setPreferredSize(new Dimension(100, 300));
 		pnlContent.add(scrollPanelContacts, BorderLayout.EAST);
-		contacts = new Contacts();
-		readInContacts();
 
 		// Add the textpanels
 		tfWrite = new TextField("Skriv ditt meddelande här...");
@@ -234,17 +230,18 @@ public class ClientViewer extends JFrame implements ActionListener {
 
 	public void setController(ClientController controller) {
 		this.controller = controller;
+		readInContacts();
 	}
 
 	public void readInContacts() {
 		contactList.clearList();
-		contactList.setUsers(new ArrayList<User>(contacts.getList()));
+		contactList.setUsers(new ArrayList<User>(controller.getContacts()));
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnSendMessage) {
 			ArrayList<User> receivers = getSelectedActiveUsers();
-			for (User user : contacts.getList()) {
+			for (User user : controller.getContacts()) {
 				if (receivers.contains(user)) {
 					continue;
 				}
@@ -266,7 +263,7 @@ public class ClientViewer extends JFrame implements ActionListener {
 				}
 			}
 			selectedUsers.remove(temp);
-			contacts.addContact(selectedUsers);
+			controller.addContacts(selectedUsers);
 			readInContacts();
 		}
 	}
